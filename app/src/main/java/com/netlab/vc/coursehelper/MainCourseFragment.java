@@ -38,8 +38,8 @@ public class MainCourseFragment extends Fragment {
     }
     public class GetMyCourseTask extends AsyncTask<Void,Void,Boolean>{
         private View view;
-        public GetMyCourseTask(View mview){
-            view=mview;
+        public GetMyCourseTask(View _view){
+            view=_view;
         }
         @Override
         protected Boolean doInBackground(Void... params) {
@@ -70,6 +70,7 @@ public class MainCourseFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent intent=new Intent(getActivity(),CourseActivity.class);
+                    intent.putExtra("course_id",courseList[position].getCourse_id());
                     startActivity(intent);
                 }
             });

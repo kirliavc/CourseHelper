@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_below="@id/course_image"
             android:layout_height="1dp"
-            android:background="@color/forestgreen" />
+            android:background="@color/text_gray" />
 
     </RelativeLayout>
 </RelativeLayout>

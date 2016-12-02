@@ -1,14 +1,23 @@
 package com.netlab.vc.coursehelper;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.alibaba.fastjson.JSON;
+import com.netlab.vc.coursehelper.util.Constants;
+import com.netlab.vc.coursehelper.util.Parameters;
+import com.netlab.vc.coursehelper.util.WebConnection;
+
+import java.util.ArrayList;
 
 /**
  * Created by dingfeifei on 16/11/20.
@@ -35,10 +44,12 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
         //requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.activity_course);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//显示返回箭头
+        Intent intent=getIntent();
+        String course_id=intent.getStringExtra("course_id");
         findViews();
         //getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.titlebar);
         setListeners();
-        //getData();
+        getData(course_id);
     }
 
     private void findViews(){
@@ -100,8 +111,33 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
             refresh();
         }
     }
-
-
+    public void getData(String course_id){
+        new GetCourseInfoTask(course_id).execute();
+    }
+    public class GetCourseInfoTask extends AsyncTask<Void,Void,Boolean>{
+        private String course_id;
+        private String _id;
+        public GetCourseInfoTask(String _course_id){
+            course_id=_course_id;
+            _id= Constants._id;
+        }
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                ArrayList<Parameters> arrayList = new ArrayList<Parameters>();
+                arrayList.add(new Parameters("_id", Constants._id));
+                arrayList.add(new Parameters("course_id", course_id));
+                Parameters parameters = WebConnection.connect(Constants.baseUrl + Constants.AddUrls.get("COURSE_INFO"),
+                        arrayList, WebConnection.CONNECT_GET);
+                Log.e(parameters.name, parameters.value);
+                Course course= JSON.parseObject(parameters.value,Course.class);
+                return true;
+            }
+            catch (Exception e) {
+                return false;
+            }
+        }
+    }
 
 
 }

@@ -97,7 +97,13 @@ public class RegisterActivity extends AppCompatActivity {
         String email=mEmailView.getText().toString();
         String phoneNumber=mPhoneNumberView.getText().toString();
         String realName=mRealnameView.getText().toString();
-        int stuID=Integer.parseInt(username);
+        int stuID;
+        try{
+            stuID=Integer.parseInt(username);
+        }
+        catch (NumberFormatException e){
+            stuID=0;
+        }
         if(stuID<1000000000||stuID>=2000000000){
             isCorrect=false;
             mUsernameView.setError("请将用户名设为你的学号");

@@ -13,6 +13,7 @@ public class Constants {
             put("LOGIN", "/user/login");
             put("REGISTER", "/user/register");
             put("COURSE_LIST","/user/courses");
+            put("COURSE_INFO","/course/info");
         }
     };
     public static String token= null;

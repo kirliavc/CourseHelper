@@ -18,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -371,10 +372,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 arrayList.add(new Parameters("password",mPassword));
                 Parameters parameters = WebConnection.connect(Constants.baseUrl+Constants.AddUrls.get("LOGIN"),
                         arrayList,WebConnection.CONNECT_POST);
+                Log.e("Login Result",parameters.value);
                 LoginResult loginResult = JSON.parseObject(parameters.value,LoginResult.class);
                 if(loginResult.getSuccess()) {
                     Constants._id = loginResult.get_id();
                     Constants.token = loginResult.getToken();
+                    Constants.username=loginResult.getName();
+                    Constants.realname=loginResult.getRealName();
                     return true;
                 }
                 else

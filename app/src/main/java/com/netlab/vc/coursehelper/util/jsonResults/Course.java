@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public class Course implements Serializable {
 
-    private String _id;
+    private String course_id;
     private String name;
     private String introduction;
     private long midterm;
@@ -24,7 +24,7 @@ public class Course implements Serializable {
     private boolean joined;
     private SignIn signIn;
     private static final long serialVersionUID = -103L;
-
+    private Boolean success;
 
     public String getTerm() {
         return term;
@@ -34,12 +34,12 @@ public class Course implements Serializable {
         this.term = term;
     }
 
-    public String get_id() {
-        return _id;
+    public String getCourse_id() {
+        return course_id;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setCourse_id(String course_id) {
+        this.course_id = course_id;
     }
 
     public String getName() {
@@ -144,5 +144,13 @@ public class Course implements Serializable {
 
     public void setSignIn(SignIn signIn) {
         this.signIn = signIn;
+    }
+
+    public Boolean getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(Boolean success) {
+        this.success = success;
     }
 }

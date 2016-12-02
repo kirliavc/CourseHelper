@@ -11,8 +11,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+
+import com.netlab.vc.coursehelper.util.Constants;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -24,35 +28,51 @@ ViewPager.OnPageChangeListener{
     private RadioButton rb_course;
     private RadioButton rb_announcement;
     private RadioButton rb_group;
+    private TextView drawerRealName;
+    private TextView drawerUserId;
+    private Toolbar toolbar;
+    private DrawerLayout drawer;
+    private LinearLayout navHeader;
+    private NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        pagerAdapter=new MainPagerAdapter(getSupportFragmentManager());
-        vpager=(ViewPager)findViewById(R.id.vpager);
+
+        findViews();
         vpager.setAdapter(pagerAdapter);
         vpager.setCurrentItem(0);
         vpager.addOnPageChangeListener(this);
-        rg_tab_bar=(RadioGroup)findViewById(R.id.tab_group);
-        rg_tab_bar.setOnCheckedChangeListener(this);
-        rb_course=(RadioButton)findViewById(R.id.rb_course);
-        rb_announcement=(RadioButton)findViewById(R.id.rb_message);
-        rb_group=(RadioButton)findViewById(R.id.rb_group);
 
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-    }
 
+        navigationView.setNavigationItemSelectedListener(this);
+        //Log.e("1",Constants.realname);
+        drawerRealName.setText(Constants.realname);
+        drawerUserId.setText(Constants.username);
+    }
+    public void findViews(){
+        pagerAdapter=new MainPagerAdapter(getSupportFragmentManager());
+        vpager=(ViewPager)findViewById(R.id.vpager);
+        rg_tab_bar=(RadioGroup)findViewById(R.id.tab_group);
+        rg_tab_bar.setOnCheckedChangeListener(this);
+        rb_course=(RadioButton)findViewById(R.id.rb_course);
+        rb_announcement=(RadioButton)findViewById(R.id.rb_message);
+        rb_group=(RadioButton)findViewById(R.id.rb_group);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navHeader=(LinearLayout)navigationView.getHeaderView(0);
+        drawerRealName=(TextView)navHeader.findViewById(R.id.drawer_realName);
+        drawerUserId=(TextView)navHeader.findViewById(R.id.drawer_userid);
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
