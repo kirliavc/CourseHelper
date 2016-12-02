@@ -7,7 +7,7 @@ import java.util.HashMap;
  */
 
 public class Constants {
-    public static final String baseUrl="http://222.29.98.104:3000/api";
+    public static final String baseUrl="http://smartclass.zakelly.com:3000/api";
     public static final HashMap<String, String> AddUrls = new HashMap<String, String>(){
         {
             put("LOGIN", "/user/login");

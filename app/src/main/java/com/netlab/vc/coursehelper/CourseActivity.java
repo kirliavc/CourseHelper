@@ -47,6 +47,7 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//显示返回箭头
         Intent intent=getIntent();
         course_id=intent.getStringExtra("course_id");
+        Log.e("course_id",course_id);
         findViews();
         //getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.titlebar);
         setListeners();
@@ -129,6 +130,7 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
                 ArrayList<Parameters> arrayList = new ArrayList<Parameters>();
                 arrayList.add(new Parameters("_id", Constants._id));
                 arrayList.add(new Parameters("course_id", course_id));
+                Log.e("course_id",course_id);
                 Parameters parameters = WebConnection.connect(Constants.baseUrl + Constants.AddUrls.get("COURSE_INFO"),
                         arrayList, WebConnection.CONNECT_GET);
                 Log.e(parameters.name, parameters.value);

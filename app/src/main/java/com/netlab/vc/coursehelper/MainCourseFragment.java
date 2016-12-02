@@ -27,20 +27,23 @@ import java.util.ArrayList;
 public class MainCourseFragment extends Fragment {
     public MainCourseFragment(){}
     Course [] courseList=new Course[]{};
+    private View view;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.content_main, container, false);
-        new GetMyCourseTask(view).execute();
+        view = inflater.inflate(R.layout.content_main, container, false);
+        new GetMyCourseTask().execute();
 
 
         Log.e("HEHE", "1");
         return view;
     }
     public class GetMyCourseTask extends AsyncTask<Void,Void,Boolean>{
+        /*
         private View view;
         public GetMyCourseTask(View _view){
             view=_view;
         }
+        */
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
