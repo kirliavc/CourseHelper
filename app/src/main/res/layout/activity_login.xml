@@ -94,6 +94,8 @@
                     android:layout_marginTop="16dp"
                     android:layout_alignParentLeft="true"
                     android:text="@string/action_sign_in"
+                    android:gravity="center"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <Button
@@ -104,7 +106,9 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginRight="7dp"
                     android:layout_alignParentRight="true"
+                    android:textSize="15sp"
                     android:text="@string/action_register"
+                    android:gravity="center"
                     android:textStyle="bold" />
 
             </RelativeLayout>

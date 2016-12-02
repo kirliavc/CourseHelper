@@ -16,6 +16,7 @@ import com.alibaba.fastjson.JSON;
 import com.netlab.vc.coursehelper.util.Constants;
 import com.netlab.vc.coursehelper.util.Parameters;
 import com.netlab.vc.coursehelper.util.WebConnection;
+import com.netlab.vc.coursehelper.util.jsonResults.Course;
 
 import java.util.ArrayList;
 
@@ -38,18 +39,18 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
     private SwipeRefreshLayout refreshLayout;
     private ProgressBar progressBar;
     protected static final String TAG = "CourseActivity";//LOG用到的标记
-
+    private String course_id;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.activity_course);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//显示返回箭头
         Intent intent=getIntent();
-        String course_id=intent.getStringExtra("course_id");
+        course_id=intent.getStringExtra("course_id");
         findViews();
         //getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.titlebar);
         setListeners();
-        getData(course_id);
+        getData();
     }
 
     private void findViews(){
@@ -99,7 +100,8 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
     }
 
     private void refresh(){
-        int a = 1;
+
+        getData();
     }
 
     @Override
@@ -111,7 +113,7 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
             refresh();
         }
     }
-    public void getData(String course_id){
+    public void getData(){
         new GetCourseInfoTask(course_id).execute();
     }
     public class GetCourseInfoTask extends AsyncTask<Void,Void,Boolean>{
@@ -130,12 +132,26 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
                 Parameters parameters = WebConnection.connect(Constants.baseUrl + Constants.AddUrls.get("COURSE_INFO"),
                         arrayList, WebConnection.CONNECT_GET);
                 Log.e(parameters.name, parameters.value);
-                Course course= JSON.parseObject(parameters.value,Course.class);
+                course= JSON.parseObject(parameters.value,Course.class);
+
                 return true;
             }
             catch (Exception e) {
                 return false;
             }
+        }
+        @Override
+        protected void onPostExecute(Boolean success){
+            if(!success){
+                //TODO
+                return;
+            }
+            courseName.setText(course.getName());
+            courseTeacher.setText(course.getTerm());
+            courseDate.setText(course.getIntroduction());
+            progressBar.setVisibility(View.GONE);
+            if(refreshLayout.isRefreshing())
+                refreshLayout.setRefreshing(false);
         }
     }
 

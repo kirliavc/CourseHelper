@@ -2,7 +2,9 @@
 <resources>
     <color name="colorPrimary">#94070A</color>
     <color name="colorPrimaryDark">#94070A</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#94070A</color>
+    <color name="editTextColor">#94070A</color>
+    <color name="pink">#FF4081</color>
     <color name="bg_black">#000000</color>
     <color name="bg_white">#FFFFFF</color>
     <color name="bg_topbar">#FCFCFC</color>

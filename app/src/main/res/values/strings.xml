@@ -42,4 +42,11 @@
     <string name="forum_list">论坛</string>
     <string name="group_list">小组</string>
     <string name="swipe_to_refresh">刷新</string>
+
+    <!-- Strings related to TestListActivity -->
+    <string name="no_tests">本课程暂时没有测试</string>
+    <!-- Strings related to QuestionListActivity -->
+    <string name="no_questions">没有找到测试问题</string>
+    <!-- Strings related to FinishedQuestionListActivity -->
+    <string name="no_finished_questions">没有找到回答过的问题</string>
 </resources>
