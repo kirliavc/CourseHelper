@@ -78,7 +78,9 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
         });
         testList.setOnClickListener(new LinearLayout.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(CourseActivity.this, LoginActivity.class);
+                Intent intent = new Intent(CourseActivity.this, TestListActivity.class);
+                intent.putExtra("course_id",course_id);
+                startActivity(intent);
             }
         });
         contentList.setOnClickListener(new LinearLayout.OnClickListener() {

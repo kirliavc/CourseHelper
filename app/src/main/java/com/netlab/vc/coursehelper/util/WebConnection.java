@@ -57,7 +57,7 @@ public class WebConnection {
 
 
 
-            Log.w("URL", url);
+            Log.w("postURL", url);
             List<NameValuePair> paramsList = new ArrayList<NameValuePair>();
             if (params != null) {
                 for (Parameters paraItem : params) {
@@ -120,6 +120,7 @@ public class WebConnection {
 
     private static Parameters connectWithGet(String url,ArrayList<Parameters> params) {
         try {
+            Log.w("getURL", url);
             url = url.trim();
             HttpParams httpParams = new BasicHttpParams();
             HttpConnectionParams.setConnectionTimeout(httpParams, 4000);

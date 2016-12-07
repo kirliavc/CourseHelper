@@ -42,6 +42,10 @@
             android:name=".ElectiveActivity"
             android:label="添加新课程">
         </activity>
+        <activity
+            android:name=".TestListActivity"
+            android:label="测试列表">
+        </activity>
     </application>
 
 </manifest>
