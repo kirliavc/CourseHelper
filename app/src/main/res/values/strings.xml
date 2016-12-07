@@ -30,8 +30,8 @@
         For more information, see https://support.google.com/admob/answer/3052638
     <!- -->
     <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
-
-
+    <!-- Strings related to ChangeInfoActivity -->
+    <string name="action_change_info">保存修改</string>
     <!-- Strings related to CourseActivity -->
     <string name="sign_uped">已签到</string>
     <string name="absence">缺勤</string>

@@ -11,11 +11,40 @@ public class LoginResult {
     String _id;
     String token;
     Boolean success;
+
+    /*
     String name;
     String email;
     String phone;
     String realName;
+    */
 
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Boolean getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(Boolean success) {
+        this.success = success;
+    }
+
+    /*
     public String getName() {
         return name;
     }
@@ -47,28 +76,5 @@ public class LoginResult {
     public void setRealName(String realName) {
         this.realName = realName;
     }
-
-    public String get_id() {
-        return _id;
-    }
-
-    public void set_id(String _id) {
-        this._id = _id;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public Boolean getSuccess() {
-        return success;
-    }
-
-    public void setSuccess(Boolean success) {
-        this.success = success;
-    }
+    */
 }

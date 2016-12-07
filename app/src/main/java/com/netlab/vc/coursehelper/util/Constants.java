@@ -14,6 +14,7 @@ public class Constants {
             put("REGISTER", "/user/register");
             put("COURSE_LIST","/user/courses");
             put("COURSE_INFO","/course/info");
+            put("QUIZ_LIST","/quiz/list");
         }
     };
     public static String token= null;

@@ -28,9 +28,11 @@ public class MainCourseFragment extends Fragment {
     public MainCourseFragment(){}
     Course [] courseList=new Course[]{};
     private View view;
+    private ListView coursePanel;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view = inflater.inflate(R.layout.content_main, container, false);
+        coursePanel=(ListView)view.findViewById(R.id.course_list) ;
         new GetMyCourseTask().execute();
 
 
@@ -67,7 +69,7 @@ public class MainCourseFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Boolean result){
-            ListView coursePanel=(ListView)view.findViewById(R.id.course_list) ;
+
             coursePanel.setAdapter(new CourseAdapter(getContext(),R.layout.course_item,courseList));
             coursePanel.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

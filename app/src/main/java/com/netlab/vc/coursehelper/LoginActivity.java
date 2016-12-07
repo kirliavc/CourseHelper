@@ -377,8 +377,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 if(loginResult.getSuccess()) {
                     Constants._id = loginResult.get_id();
                     Constants.token = loginResult.getToken();
+                    /*
                     Constants.username=loginResult.getName();
                     Constants.realname=loginResult.getRealName();
+                    */
                     return true;
                 }
                 else
