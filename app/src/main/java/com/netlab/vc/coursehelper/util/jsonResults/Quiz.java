@@ -5,7 +5,7 @@ package com.netlab.vc.coursehelper.util.jsonResults;
  */
 
 public class Quiz {
-    private String _id;
+    private String quiz_id;
     private String course_id;
     private String name;
     private long from;
@@ -14,13 +14,7 @@ public class Quiz {
     private boolean answered;
     private int correct;
 
-    public String get_id() {
-        return _id;
-    }
 
-    public void set_id(String _id) {
-        this._id = _id;
-    }
 
     public String getCourse_id() {
         return course_id;
