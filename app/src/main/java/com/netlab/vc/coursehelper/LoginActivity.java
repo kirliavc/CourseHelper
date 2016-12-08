@@ -31,7 +31,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
+import com.google.gson.Gson;
 import com.netlab.vc.coursehelper.util.Constants;
 import com.netlab.vc.coursehelper.util.Editor;
 import com.netlab.vc.coursehelper.util.Parameters;
@@ -373,7 +373,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Parameters parameters = WebConnection.connect(Constants.baseUrl+Constants.AddUrls.get("LOGIN"),
                         arrayList,WebConnection.CONNECT_POST);
                 Log.e("Login Result",parameters.value);
-                LoginResult loginResult = JSON.parseObject(parameters.value,LoginResult.class);
+                LoginResult loginResult = new Gson().fromJson(parameters.value,LoginResult.class);
                 if(loginResult.getSuccess()) {
                     Constants._id = loginResult.get_id();
                     Constants.token = loginResult.getToken();

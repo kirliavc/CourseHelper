@@ -44,7 +44,7 @@
         </activity>
         <activity
             android:name=".TestListActivity"
-            android:label="测试列表">
+            android:label="课堂小测验">
         </activity>
     </application>
 

@@ -15,7 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
+import com.google.gson.Gson;
 import com.netlab.vc.coursehelper.util.Constants;
 import com.netlab.vc.coursehelper.util.DateHelper;
 import com.netlab.vc.coursehelper.util.Parameters;
@@ -79,7 +79,7 @@ public class TestListActivity extends AppCompatActivity implements SwipeRefreshL
                 Parameters parameters = WebConnection.connect(Constants.baseUrl + Constants.AddUrls.get("QUIZ_LIST"),
                         arrayList, WebConnection.CONNECT_GET);
                 Log.e(parameters.name, parameters.value);
-                testList = JSON.parseObject(parameters.value, TestList.class);
+                testList = new Gson().fromJson(parameters.value, TestList.class);
                 return true;
             } catch (Exception e) {
                 return false;

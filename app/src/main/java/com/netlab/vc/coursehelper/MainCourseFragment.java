@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.alibaba.fastjson.JSON;
+import com.google.gson.Gson;
 import com.netlab.vc.coursehelper.util.Constants;
 import com.netlab.vc.coursehelper.util.Parameters;
 import com.netlab.vc.coursehelper.util.WebConnection;
@@ -54,7 +54,7 @@ public class MainCourseFragment extends Fragment {
                 Parameters parameters = WebConnection.connect(Constants.baseUrl+Constants.AddUrls.get("COURSE_LIST"),
                         arrayList,WebConnection.CONNECT_GET);
                 Log.e(parameters.name,parameters.value);
-                CourseResult courseResult = JSON.parseObject(parameters.value,CourseResult.class);
+                CourseResult courseResult = new Gson().fromJson(parameters.value,CourseResult.class);
                 if(courseResult.getSuccess()) {
                     Log.e(courseResult.getSuccess().toString(),"1");
                     courseList=courseResult.getCourses();

@@ -16,7 +16,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import com.alibaba.fastjson.JSON;
+import com.google.gson.Gson;
 import com.netlab.vc.coursehelper.util.Constants;
 import com.netlab.vc.coursehelper.util.Editor;
 import com.netlab.vc.coursehelper.util.Parameters;
@@ -195,7 +195,7 @@ public class RegisterActivity extends AppCompatActivity {
                 arrayList.add(new Parameters("email",mEmail));
                 Parameters parameters = WebConnection.connect(Constants.baseUrl+Constants.AddUrls.get("REGISTER"),
                         arrayList,WebConnection.CONNECT_POST);
-                LoginResult loginResult = JSON.parseObject(parameters.value,LoginResult.class);
+                LoginResult loginResult = new Gson().fromJson(parameters.value,LoginResult.class);
                 if(loginResult.getSuccess()) {
                     Constants._id = loginResult.get_id();
                     Constants.token = loginResult.getToken();

@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
+import com.google.gson.Gson;
 import com.netlab.vc.coursehelper.util.Constants;
 import com.netlab.vc.coursehelper.util.Parameters;
 import com.netlab.vc.coursehelper.util.WebConnection;
@@ -136,7 +136,7 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
                 Parameters parameters = WebConnection.connect(Constants.baseUrl + Constants.AddUrls.get("COURSE_INFO"),
                         arrayList, WebConnection.CONNECT_GET);
                 Log.e(parameters.name, parameters.value);
-                course= JSON.parseObject(parameters.value,Course.class);
+                course= new Gson().fromJson(parameters.value,Course.class);
 
                 return true;
             }

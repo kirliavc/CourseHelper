@@ -1,5 +1,7 @@
 package com.netlab.vc.coursehelper.util.jsonResults;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Vc on 2016/11/19.
  * 用json处理服务器返回的结果信息
@@ -18,12 +20,11 @@ public class LoginResult {
     String phone;
     String realName;
     */
-
-
+    @SerializedName("_id")
     public String get_id() {
         return _id;
     }
-
+    @SerializedName("_id")
     public void set_id(String _id) {
         this._id = _id;
     }
