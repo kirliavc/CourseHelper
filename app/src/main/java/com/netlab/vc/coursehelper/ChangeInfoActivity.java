@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,8 +20,9 @@ import com.google.gson.Gson;
 import com.netlab.vc.coursehelper.util.Constants;
 import com.netlab.vc.coursehelper.util.Editor;
 import com.netlab.vc.coursehelper.util.Parameters;
+import com.netlab.vc.coursehelper.util.RegexValidater;
 import com.netlab.vc.coursehelper.util.WebConnection;
-import com.netlab.vc.coursehelper.util.jsonResults.LoginResult;
+import com.netlab.vc.coursehelper.util.jsonResults.UserInfo;
 
 import java.util.ArrayList;
 
@@ -51,22 +53,81 @@ public class ChangeInfoActivity extends AppCompatActivity {
         mRegisterFormView=findViewById(R.id.s_change_info_form);
         mProgressView=findViewById(R.id.change_info_progress);
         mUsernameView=(AutoCompleteTextView)findViewById(R.id.change_info_username);
+        Log.e("username",Constants.username);
+        mUsernameView.setTextColor(Color.rgb(0, 0, 0));
+        mUsernameView.setText(Constants.username);
+        mUsernameView.setEnabled(false);
         mPasswordView=(EditText)findViewById(R.id.change_info_password);
+        mPasswordView.setText(Constants.password);
         mConfirmPassView=(EditText)findViewById(R.id.change_info_confirm_password);
+        mConfirmPassView.setText(Constants.password);
         mRealnameView=(EditText)findViewById(R.id.change_info_realname);
+        mRealnameView.setText(Constants.realname);
         mPhoneNumberView=(EditText)findViewById(R.id.change_info_phone_number);
+        mPhoneNumberView.setText(Constants.phone);
         mEmailView=(EditText)findViewById(R.id.change_info_email);
+        mEmailView.setText(Constants.email);
         changeinfoButton=(Button)findViewById(R.id.change_info_button);
-        Intent intent=getIntent();
-        mUsernameView.setText(intent.getStringExtra("username"));
-        mPasswordView.setText(intent.getStringExtra("password"));
         changeinfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //attemptRegister();
+                attemptChangeInfo();
             }
         });
     }
+
+    private void attemptChangeInfo() {
+        View focusView=null;
+        Boolean isCorrect=true;
+        String username=mUsernameView.getText().toString();
+        String password=mPasswordView.getText().toString();
+        String confirmPass=mConfirmPassView.getText().toString();
+        String email=mEmailView.getText().toString();
+        String phoneNumber=mPhoneNumberView.getText().toString();
+        String realName=mRealnameView.getText().toString();
+        int stuID;
+        try{
+            stuID=Integer.parseInt(username);
+        }
+        catch (NumberFormatException e){
+            stuID=0;
+        }
+        if(stuID<1000000000||stuID>=2000000000){
+            isCorrect=false;
+            mUsernameView.setError("请将用户名设为你的学号");
+            focusView=mUsernameView;
+        }
+        else if(password.length()<6||password.length()>=18){
+            isCorrect=false;
+            mPasswordView.setError("密码限制在6~18位");
+            focusView=mPasswordView;
+
+        }
+        else if(!password.equals(confirmPass)){
+            isCorrect=false;
+            mConfirmPassView.setError("两次输入的密码不一致");
+            focusView=mConfirmPassView;
+        }
+        else if(!RegexValidater.checkEmail(email)){
+            isCorrect=false;
+            mEmailView.setError("邮箱格式错误");
+            focusView=mEmailView;
+
+        }
+        else if(!RegexValidater.checkMobileNumber(phoneNumber)){
+            isCorrect=false;
+            mPhoneNumberView.setError("手机号错误");
+            focusView=mPhoneNumberView;
+        }
+        if(!isCorrect){
+            focusView.requestFocus();
+        }
+        else{
+            mAuthTask = new ChangeInfoTask(username, password, email, phoneNumber, realName);
+            mAuthTask.execute((Void) null);
+        }
+    }
+
     @Override
     public void onBackPressed(){
         Log.e("BackPressed","1");
@@ -96,6 +157,7 @@ public class ChangeInfoActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             try {
                 ArrayList<Parameters> arrayList = new ArrayList<Parameters>();
+                arrayList.add(new Parameters("_id",Constants._id));
                 arrayList.add(new Parameters("name",mUsername));
                 arrayList.add(new Parameters("password",mPassword));
                 arrayList.add(new Parameters("realName",mRealName));
@@ -103,10 +165,12 @@ public class ChangeInfoActivity extends AppCompatActivity {
                 arrayList.add(new Parameters("email",mEmail));
                 Parameters parameters = WebConnection.connect(Constants.baseUrl+Constants.AddUrls.get("INFO"),
                         arrayList,WebConnection.CONNECT_POST);
-                LoginResult changeInfoResult = new Gson().fromJson(parameters.value,LoginResult.class);
+                UserInfo changeInfoResult = new Gson().fromJson(parameters.value,UserInfo.class);
                 if(changeInfoResult.getSuccess()) {
-                    Constants._id = changeInfoResult.get_id();
-                    Constants.token = changeInfoResult.getToken();
+                    Constants.password = mPassword;
+                    Constants.realname = changeInfoResult.getRealName();
+                    Constants.email = changeInfoResult.getEmail();
+                    Constants.phone = changeInfoResult.getPhone();
                     return true;
                 }
                 else

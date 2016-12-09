@@ -376,6 +376,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Log.e("Login Result",parameters.value);
                 LoginResult loginResult = new Gson().fromJson(parameters.value,LoginResult.class);
                 if(loginResult.getSuccess()) {
+                    Constants.password = mPassword;
                     Constants._id = loginResult.get_id();
                     Constants.token = loginResult.getToken();
                     arrayList=new ArrayList<>();
@@ -388,6 +389,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         Constants.phone=userInfo.getPhone();
                         Constants.email=userInfo.getEmail();
                         Constants.type=userInfo.getType();
+                        Constants.username=userInfo.getName();
                         //Constants.avatars=userInfo.getAvatars();
                     }
 

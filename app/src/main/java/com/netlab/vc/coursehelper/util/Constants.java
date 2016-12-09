@@ -15,6 +15,7 @@ public class Constants {
             put("COURSE_LIST","/user/courses");
             put("COURSE_INFO","/course/info");
             put("QUIZ_LIST","/quiz/list");
+            put("QUIZ_CONTENT","/quiz/content");
             put("INFO","/user/info");
         }
     };
@@ -22,5 +23,5 @@ public class Constants {
     public static String _id;
     public static String username;
     public static String realname;
-    public static String phone,email,type,avatars;
+    public static String phone,email,type,avatars,password;
 }

@@ -49,6 +49,10 @@
             android:name=".TestListActivity"
             android:label="测试列表">
         </activity>
+        <activity
+            android:name=".QuestionListActivity"
+            android:label="">
+        </activity>
     </application>
 
 </manifest>

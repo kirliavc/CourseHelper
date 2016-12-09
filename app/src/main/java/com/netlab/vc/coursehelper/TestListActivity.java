@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
@@ -100,6 +101,14 @@ public class TestListActivity extends AppCompatActivity implements SwipeRefreshL
                     mapList,
                     R.layout.test_item,new String[]{"name", "finish_time"},
                     new int[]{R.id.test_name, R.id.finish_time}));
+            testListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent=new Intent(TestListActivity.this,QuestionListActivity.class);
+                    intent.putExtra("quiz_id",testList.getQuizzes()[position].getQuiz_id());
+                    startActivity(intent);
+                }
+            });
             progressBar.setVisibility(View.GONE);
         }
     }
