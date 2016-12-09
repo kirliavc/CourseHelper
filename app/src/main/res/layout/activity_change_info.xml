@@ -129,7 +129,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <Button
-                android:id="@+id/chang_info_button"
+                android:id="@+id/change_info_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

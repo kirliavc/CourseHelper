@@ -42,7 +42,7 @@ public class TestListActivity extends AppCompatActivity implements SwipeRefreshL
     private TextView noTest;
     private String course_id;
     private TestList testList;
-    private static TestListActivity instance;
+    private TestListActivity instance;
     List<Map<String,Object> >mapList;
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -127,8 +127,8 @@ public class TestListActivity extends AppCompatActivity implements SwipeRefreshL
             final View convertView = super.getView(position, null, parent);
             final RateTextCircularProgressBar progressBar;
             progressBar = (RateTextCircularProgressBar) convertView.findViewById(R.id.progress_bar);
-            //progressBar.setTextColor(getResources().getColor(R.color.red));
-            //progressBar.getCircularProgressBar().setPrimaryColor(getResources().getColor(R.color.red));
+            progressBar.setTextColor(getResources().getColor(R.color.cherry_red));
+            progressBar.getCircularProgressBar().setPrimaryColor(getResources().getColor(R.color.high_red));
             progressBar.setTextSize(15);
             progressBar.setMax(100);
             progressBar.setProgress(0);

@@ -21,7 +21,7 @@ import com.netlab.vc.coursehelper.util.Constants;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         RadioGroup.OnCheckedChangeListener,
-ViewPager.OnPageChangeListener{
+        ViewPager.OnPageChangeListener{
     private ViewPager vpager;
     private MainPagerAdapter pagerAdapter;
     private RadioGroup rg_tab_bar;
@@ -120,6 +120,9 @@ ViewPager.OnPageChangeListener{
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
+            Intent intent=new Intent(MainActivity.this,ChangeInfoActivity.class);
+            startActivity(intent);
+            return true;
 
         } else if (id == R.id.nav_share) {
 

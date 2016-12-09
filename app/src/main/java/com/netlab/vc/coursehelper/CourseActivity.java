@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -53,7 +54,21 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
         setListeners();
         getData();
     }
-
+    @Override
+    public void onBackPressed(){
+        Log.e("BackPressed","1");
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // TODO Auto-generated method stub
+        if(item.getItemId() == android.R.id.home)
+        {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     private void findViews(){
         announcementList = (LinearLayout) findViewById(R.id.announcement_list);
         testList = (LinearLayout) findViewById(R.id.test_list);

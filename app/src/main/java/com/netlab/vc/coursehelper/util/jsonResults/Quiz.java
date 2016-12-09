@@ -15,6 +15,13 @@ public class Quiz {
     private int correct;
 
 
+    public String getQuiz_id() {
+        return quiz_id;
+    }
+
+    public void setQuiz_id(String quiz_id) {
+        this.quiz_id = quiz_id;
+    }
 
     public String getCourse_id() {
         return course_id;
