@@ -37,6 +37,7 @@ import com.netlab.vc.coursehelper.util.Editor;
 import com.netlab.vc.coursehelper.util.Parameters;
 import com.netlab.vc.coursehelper.util.WebConnection;
 import com.netlab.vc.coursehelper.util.jsonResults.LoginResult;
+import com.netlab.vc.coursehelper.util.jsonResults.UserInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -377,6 +378,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 if(loginResult.getSuccess()) {
                     Constants._id = loginResult.get_id();
                     Constants.token = loginResult.getToken();
+                    arrayList=new ArrayList<>();
+                    arrayList.add(new Parameters("_id",loginResult.get_id()));
+                    parameters = WebConnection.connect(Constants.baseUrl+Constants.AddUrls.get("INFO"),
+                            arrayList,WebConnection.CONNECT_GET);
+                    UserInfo userInfo=new Gson().fromJson(parameters.value,UserInfo.class);
+                    if(userInfo.getSuccess()){
+                        Constants.realname=userInfo.getRealName();
+                        Constants.phone=userInfo.getPhone();
+                        Constants.email=userInfo.getEmail();
+                        Constants.type=userInfo.getType();
+                        //Constants.avatars=userInfo.getAvatars();
+                    }
+
                     /*
                     Constants.username=loginResult.getName();
                     Constants.realname=loginResult.getRealName();

@@ -15,10 +15,12 @@ public class Constants {
             put("COURSE_LIST","/user/courses");
             put("COURSE_INFO","/course/info");
             put("QUIZ_LIST","/quiz/list");
+            put("INFO","/user/info");
         }
     };
     public static String token= null;
     public static String _id;
     public static String username;
     public static String realname;
+    public static String phone,email,type,avatars;
 }
