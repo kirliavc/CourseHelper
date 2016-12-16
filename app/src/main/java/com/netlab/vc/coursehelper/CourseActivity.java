@@ -12,14 +12,17 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.netlab.vc.coursehelper.util.Constants;
 import com.netlab.vc.coursehelper.util.Parameters;
 import com.netlab.vc.coursehelper.util.WebConnection;
 import com.netlab.vc.coursehelper.util.jsonResults.Course;
+import com.netlab.vc.coursehelper.util.jsonResults.SignInInfo;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -42,8 +45,10 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
     private ProgressBar progressBar;
     protected static final String TAG = "CourseActivity";//LOG用到的标记
     private String course_id;
-    private Boolean signUpStats=false;
-    private Set<String> UIDs;
+    private Set<String> UIDs;//学生扫描得到的uuids
+    private Boolean signUpStats=false;//老师修改signUpStats
+
+
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -121,7 +126,7 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
                     attemptSignUp();
                 }
                 else if(signUpStats==false){
-                    //startSignUp();
+                    startSignUp();
                 }
                 //else
                     //finishSignUp();
@@ -145,9 +150,10 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
         }
     }
     public void getData(){
-        new GetCourseInfoTask(course_id).execute();
-        if(!Constants.type.equals("Student")){
-            Log.e("type",Constants.type);
+        new GetCourseInfoTask().execute();
+        Log.e("type",Constants.type);
+        if(Constants.username.equals("yinhang")){
+
             signUp.setText("开启签到");
         }
     }
@@ -156,11 +162,32 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
         signUp.setClickable(false);
         signUp.setText(R.string.signuping);
     }
-    public class GetCourseInfoTask extends AsyncTask<Void,Void,Boolean>{
-        private String course_id;
-        public GetCourseInfoTask(String _course_id){
-            course_id=_course_id;
+    private void startSignUp(){
+        signUp.setBackgroundColor(getResources().getColor(R.color.gray));
+        signUp.setClickable(false);
+        String uuid=generateRandom();
+
+    }
+    /*
+     * generate a random uuid.
+     */
+    private String generateRandom(){
+        char[] s = new char[36];
+        Random random = new Random();
+        String str = "ABCDEF0123456789";
+        for(int i = 0; i < 36; i++){
+            if(i == 8 || i == 13 || i == 18 || i == 23){
+                s[i] = '-';
+                continue;
+            }
+            int k = random.nextInt(16);
+            s[i] = str.charAt(k);
         }
+        return  String.valueOf(s);
+    }
+
+    public class GetCourseInfoTask extends AsyncTask<Void,Void,Boolean>{
+
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
@@ -193,6 +220,43 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
                 refreshLayout.setRefreshing(false);
         }
     }
+    public class StartSignUpTask extends AsyncTask<Void,Void,Boolean>{
+        private String uuid;
+        public StartSignUpTask(){
+            uuid=generateRandom();
+        }
 
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                ArrayList<Parameters> arrayList = new ArrayList<Parameters>();
+                arrayList.add(new Parameters("_id", Constants._id));
+                arrayList.add(new Parameters("course_id", course_id));
+                arrayList.add(new Parameters("uuid", uuid));
+                Parameters parameters = WebConnection.connect(Constants.baseUrl + Constants.AddUrls.get("SIGN_UUID"),
+                        arrayList, WebConnection.CONNECT_POST);
+                if(!parameters.name.equals("200"))
+                    return false;
+                SignInInfo signInInfo= new Gson().fromJson(parameters.value,SignInInfo.class);
+                arrayList=new ArrayList<>();
+                arrayList.add(new Parameters("_id", Constants._id));
+                arrayList.add(new Parameters("course_id", course_id));
+                parameters = WebConnection.connect(Constants.baseUrl + Constants.AddUrls.get("SIGN_ENABLE"),
+                        arrayList, WebConnection.CONNECT_POST);
+                Log.e(parameters.name, parameters.value);
+                if(!parameters.name.equals("200"))
+                    return false;
+                return true;
+            }
+            catch (Exception e) {
+                return false;
+            }
+        }
+
+        @Override
+        public void onPostExecute(Boolean success){
+            Toast.makeText(getApplicationContext(),"开启签到成功！",Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }

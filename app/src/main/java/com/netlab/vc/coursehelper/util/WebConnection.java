@@ -79,7 +79,6 @@ public class WebConnection {
 
             Parameters parameters = new Parameters("", "");
             int returncode = httpResponse.getStatusLine().getStatusCode();
-            Log.w("return code",String.valueOf(returncode));
 
             int encodeingType = getEncodingType(url);
             boolean isGbk = false;
@@ -111,6 +110,7 @@ public class WebConnection {
                 string = string.trim();
                 parameters.value = string;
             }
+            Log.e(parameters.name,parameters.value);
             return parameters;
         } catch (Exception e) {
             e.printStackTrace();
@@ -173,6 +173,7 @@ public class WebConnection {
                     line = bf.readLine();
                 }
                 parameters.value = string;
+                Log.e(parameters.name,parameters.value);
             }
             return parameters;
         } catch (Exception e) {

@@ -61,7 +61,6 @@ public class MainCourseFragment extends Fragment {
                 arrayList.add(new Parameters("_id",Constants._id));
                 Parameters parameters = WebConnection.connect(Constants.baseUrl+Constants.AddUrls.get("COURSE_LIST"),
                         arrayList,WebConnection.CONNECT_GET);
-                Log.e(parameters.name,parameters.value);
                 CourseResult courseResult = new Gson().fromJson(parameters.value,CourseResult.class);
                 if(courseResult.getSuccess()) {
                     Log.e(courseResult.getSuccess().toString(),"1");

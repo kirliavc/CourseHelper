@@ -30,6 +30,7 @@ dependencies {
     compile 'com.android.support:design:24.2.1'
     testCompile 'junit:junit:4.12'
     compile 'com.google.code.gson:gson:2.8.0'
+    compile 'org.altbeacon:android-beacon-library:2.9.2'
 }
 dependencies {
     compile 'com.google.android.gms:play-services-ads:8.4.0'

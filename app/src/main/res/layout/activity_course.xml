@@ -137,7 +137,7 @@
 
                     <Button
                         android:id="@+id/sign_up"
-                        android:layout_width="60dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="35dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerHorizontal="true"
