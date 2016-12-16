@@ -194,7 +194,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         intent.putExtra("username",mUsernameView.getText().toString());
         intent.putExtra("password",mPasswordView.getText().toString());
         startActivity(intent);
-        //LoginActivity.this.finish();
+        LoginActivity.this.finish();
     }
     /**
      * Attempts to sign in or register the account specified by the login form.

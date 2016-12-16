@@ -3,7 +3,6 @@ package com.netlab.vc.coursehelper;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -168,9 +167,9 @@ public class ChangeInfoActivity extends AppCompatActivity {
                 UserInfo changeInfoResult = new Gson().fromJson(parameters.value,UserInfo.class);
                 if(changeInfoResult.getSuccess()) {
                     Constants.password = mPassword;
-                    Constants.realname = changeInfoResult.getRealName();
-                    Constants.email = changeInfoResult.getEmail();
-                    Constants.phone = changeInfoResult.getPhone();
+                    Constants.realname = mRealName;
+                    Constants.email = mEmail;
+                    Constants.phone = mPhoneNumber;
                     return true;
                 }
                 else
@@ -223,8 +222,6 @@ public class ChangeInfoActivity extends AppCompatActivity {
                 //save the password?
                 Editor.putString(getApplicationContext(),"password",mPassword);
                 Editor.putString(getApplicationContext(),"username",mUsername);
-                Intent jumpToMain = new Intent(ChangeInfoActivity.this,MainActivity.class);
-                ChangeInfoActivity.this.startActivity(jumpToMain);
                 ChangeInfoActivity.this.finish();
             } else {
                 Log.e("123","修改失败!");

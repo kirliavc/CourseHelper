@@ -23,6 +23,7 @@ import com.netlab.vc.coursehelper.util.Parameters;
 import com.netlab.vc.coursehelper.util.RegexValidater;
 import com.netlab.vc.coursehelper.util.WebConnection;
 import com.netlab.vc.coursehelper.util.jsonResults.LoginResult;
+import com.netlab.vc.coursehelper.util.jsonResults.UserInfo;
 
 import java.util.ArrayList;
 
@@ -197,8 +198,22 @@ public class RegisterActivity extends AppCompatActivity {
                         arrayList,WebConnection.CONNECT_POST);
                 LoginResult loginResult = new Gson().fromJson(parameters.value,LoginResult.class);
                 if(loginResult.getSuccess()) {
+                    Constants.password = mPassword;
                     Constants._id = loginResult.get_id();
                     Constants.token = loginResult.getToken();
+                    arrayList = new ArrayList<Parameters>();
+                    arrayList.add(new Parameters("_id",Constants._id));
+                    parameters = WebConnection.connect(Constants.baseUrl+Constants.AddUrls.get("INFO"),
+                            arrayList,WebConnection.CONNECT_GET);
+                    UserInfo userInfo=new Gson().fromJson(parameters.value,UserInfo.class);
+                    if(userInfo.getSuccess()){
+                        Constants.realname=userInfo.getRealName();
+                        Constants.phone=userInfo.getPhone();
+                        Constants.email=userInfo.getEmail();
+                        Constants.type=userInfo.getType();
+                        Constants.username=userInfo.getName();
+                        //Constants.avatars=userInfo.getAvatars();
+                    }
                     return true;
                 }
                 else

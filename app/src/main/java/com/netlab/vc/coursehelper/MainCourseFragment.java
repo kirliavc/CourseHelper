@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -29,15 +30,22 @@ public class MainCourseFragment extends Fragment {
     Course [] courseList=new Course[]{};
     private View view;
     private ListView coursePanel;
+    private LinearLayout courseAddDelete;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view = inflater.inflate(R.layout.content_main, container, false);
         coursePanel=(ListView)view.findViewById(R.id.course_list) ;
+        courseAddDelete=(LinearLayout) view.findViewById(R.id.elective_course) ;
         new GetMyCourseTask().execute();
 
 
         Log.e("HEHE", "1");
         return view;
+    }
+    @Override
+    public void onResume(){
+        new GetMyCourseTask().execute();
+        super.onResume();
     }
     public class GetMyCourseTask extends AsyncTask<Void,Void,Boolean>{
         /*
@@ -69,7 +77,12 @@ public class MainCourseFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Boolean result){
-
+            courseAddDelete.setOnClickListener(new LinearLayout.OnClickListener(){
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), ElectiveActivity.class);
+                    startActivity(intent);
+                }
+            });
             coursePanel.setAdapter(new CourseAdapter(getContext(),R.layout.course_item,courseList));
             coursePanel.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

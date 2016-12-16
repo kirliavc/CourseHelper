@@ -20,6 +20,7 @@ import com.netlab.vc.coursehelper.util.WebConnection;
 import com.netlab.vc.coursehelper.util.jsonResults.Course;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Created by dingfeifei on 16/11/20.
@@ -41,6 +42,8 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
     private ProgressBar progressBar;
     protected static final String TAG = "CourseActivity";//LOG用到的标记
     private String course_id;
+    private Boolean signUpStats=false;
+    private Set<String> UIDs;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         //requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -54,10 +57,7 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
         setListeners();
         getData();
     }
-    @Override
-    public void onBackPressed(){
-        Log.e("BackPressed","1");
-    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -114,6 +114,19 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
             }
         });
         refreshLayout.setOnRefreshListener(this);
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!Constants.type.equals("Student")){
+                    attemptSignUp();
+                }
+                else if(signUpStats==false){
+                    //startSignUp();
+                }
+                //else
+                    //finishSignUp();
+            }
+        });
         //TODO 签到
     }
 
@@ -133,13 +146,20 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
     }
     public void getData(){
         new GetCourseInfoTask(course_id).execute();
+        if(!Constants.type.equals("Student")){
+            Log.e("type",Constants.type);
+            signUp.setText("开启签到");
+        }
+    }
+    private void attemptSignUp(){
+        signUp.setBackgroundColor(getResources().getColor(R.color.gray));
+        signUp.setClickable(false);
+        signUp.setText(R.string.signuping);
     }
     public class GetCourseInfoTask extends AsyncTask<Void,Void,Boolean>{
         private String course_id;
-        private String _id;
         public GetCourseInfoTask(String _course_id){
             course_id=_course_id;
-            _id= Constants._id;
         }
         @Override
         protected Boolean doInBackground(Void... params) {

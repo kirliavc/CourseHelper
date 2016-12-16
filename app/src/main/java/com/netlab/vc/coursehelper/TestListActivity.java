@@ -41,7 +41,7 @@ public class TestListActivity extends AppCompatActivity implements SwipeRefreshL
     private ListView testListView;
     private ProgressBar progressBar;
     private TextView noTest;
-    private String course_id;
+    private String courseId;
     private TestList testList;
     private TestListActivity instance;
     List<Map<String,Object> >mapList;
@@ -49,7 +49,7 @@ public class TestListActivity extends AppCompatActivity implements SwipeRefreshL
     protected void onCreate(Bundle savedInstanceState){
         instance=this;
         Intent intent=getIntent();
-        course_id=intent.getStringExtra("course_id");
+        courseId=intent.getStringExtra("course_id");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_list);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -76,7 +76,7 @@ public class TestListActivity extends AppCompatActivity implements SwipeRefreshL
             try {
                 ArrayList<Parameters> arrayList = new ArrayList<Parameters>();
                 arrayList.add(new Parameters("_id", Constants._id));
-                arrayList.add(new Parameters("course_id", course_id));
+                arrayList.add(new Parameters("course_id", courseId));
                 Parameters parameters = WebConnection.connect(Constants.baseUrl + Constants.AddUrls.get("QUIZ_LIST"),
                         arrayList, WebConnection.CONNECT_GET);
                 Log.e(parameters.name, parameters.value);
@@ -106,6 +106,7 @@ public class TestListActivity extends AppCompatActivity implements SwipeRefreshL
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent intent=new Intent(TestListActivity.this,QuestionListActivity.class);
                     intent.putExtra("quiz_id",testList.getQuizzes()[position].getQuiz_id());
+                    intent.putExtra("course_id",courseId);
                     startActivity(intent);
                 }
             });

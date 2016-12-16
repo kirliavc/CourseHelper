@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -58,6 +59,13 @@ public class MainActivity extends AppCompatActivity
         drawerRealName.setText(Constants.realname);
         drawerUserId.setText(Constants.username);
     }
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.e("realname",Constants.realname);
+        drawerRealName.setText(Constants.realname);
+        drawerUserId.setText(Constants.username);
+    }
     public void findViews(){
         pagerAdapter=new MainPagerAdapter(getSupportFragmentManager());
         vpager=(ViewPager)findViewById(R.id.vpager);
@@ -85,6 +93,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
@@ -102,6 +111,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent=new Intent(MainActivity.this,ElectiveActivity.class);
             startActivity(intent);
             return true;
+
         }
 
         return super.onOptionsItemSelected(item);
