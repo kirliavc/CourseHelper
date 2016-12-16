@@ -162,7 +162,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
         if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
             Snackbar.make(mUsernameView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(android.R.string.ok, new View.OnClickListener() {
+                    .setAction(android.R.string.ok, new OnClickListener() {
                         @Override
                         @TargetApi(Build.VERSION_CODES.M)
                         public void onClick(View v) {
@@ -421,7 +421,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Editor.putString(getApplicationContext(),"username",mUsername);
                 Intent jumpToMain = new Intent(LoginActivity.this,MainActivity.class);
                 LoginActivity.this.startActivity(jumpToMain);
-                LoginActivity.this.finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
