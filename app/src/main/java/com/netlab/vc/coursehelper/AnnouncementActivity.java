@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.netlab.vc.coursehelper.util.Constants;
@@ -51,8 +52,12 @@ public class AnnouncementActivity extends AppCompatActivity implements SwipeRefr
         });
         btn_pre.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
-                page--;
-                new GetAnnouncementTask().execute();
+                if (page >= 2) {
+                    page--;
+                    new GetAnnouncementTask().execute();
+                }
+                else
+                    Toast.makeText(getApplicationContext(),"当前已是第一页",Toast.LENGTH_SHORT).show();
             }
         });
         Log.e("HEHE", "1");
@@ -111,6 +116,11 @@ public class AnnouncementActivity extends AppCompatActivity implements SwipeRefr
         }
         @Override
         protected void onPostExecute(Boolean result){
+            if (announcementList.length == 0){
+                Toast.makeText(getApplicationContext(),"当前已是最后一页",Toast.LENGTH_SHORT).show();
+                page--;
+                return;
+            }
             announceList.setAdapter(new AnnouncementAdapter(AnnouncementActivity.this,R.layout.announcement_item,announcementList));
             if(refreshLayout.isRefreshing())
                 refreshLayout.setRefreshing(false);
