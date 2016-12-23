@@ -61,4 +61,6 @@
     <string name="add">添加</string>
     <string name="put_forward">提交</string>
     <string name="signuping">签到中...</string>
+    <string name="signup">签到</string>
+    <string name="download">下载</string>
 </resources>

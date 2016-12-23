@@ -19,6 +19,7 @@ import com.netlab.vc.coursehelper.util.WebConnection;
 import com.netlab.vc.coursehelper.util.jsonResults.Answer;
 import com.netlab.vc.coursehelper.util.jsonResults.Question;
 import com.netlab.vc.coursehelper.util.jsonResults.QuestionResult;
+import com.netlab.vc.coursehelper.util.jsonResults.UserAnswerInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ public class QuestionListActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private String quizId;
     private String courseId;
+    private String quizName;
     private Question[] questions;
     private Answer[] originAnswers;
     private Boolean isAnswered;
@@ -46,6 +48,11 @@ public class QuestionListActivity extends AppCompatActivity {
         Intent intent=getIntent();
         quizId=intent.getStringExtra("quiz_id");
         courseId=intent.getStringExtra("course_id");
+        quizName=intent.getStringExtra("quiz_name");
+        setTitle(quizName);
+        isAnswered=false;
+        if(intent.getIntExtra("answered",0)==1)
+            isAnswered=true;
         findViews();
         new getQuestionTask().execute();
     }
@@ -56,7 +63,8 @@ public class QuestionListActivity extends AppCompatActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.question_list, menu);
+        if(!isAnswered)
+          getMenuInflater().inflate(R.menu.question_list, menu);
         return true;
     }
     @Override
@@ -93,10 +101,16 @@ public class QuestionListActivity extends AppCompatActivity {
                 arrayList.add(new Parameters("quiz_id", quizId));
                 Parameters questionParam = WebConnection.connect(Constants.baseUrl + Constants.AddUrls.get("QUIZ_CONTENT"),
                         arrayList, WebConnection.CONNECT_GET);
-                Parameters originAnswerParam = WebConnection.connect(Constants.baseUrl + Constants.AddUrls.get("QUIZ_CONTENT"),
-                        arrayList, WebConnection.CONNECT_GET);
-                Log.e(questionParam.name, questionParam.value);
-                questions = new Gson().fromJson(questionParam.value, QuestionResult.class).getQuestions();
+                Gson gson=new Gson();
+                questions = gson.fromJson(questionParam.value, QuestionResult.class).getQuestions();
+                arrayList.add(new Parameters("course_id", courseId));
+                Parameters originAnswerParam=null;
+                if(isAnswered){
+                    originAnswerParam = WebConnection.connect(Constants.baseUrl + Constants.AddUrls.get("ANSWER_QUIZ_INFO"),
+                            arrayList, WebConnection.CONNECT_GET);
+                    originAnswers=gson.fromJson(originAnswerParam.value,UserAnswerInfo.class).getStatus();
+
+                }
                 return true;
             } catch (Exception e) {
                 return false;
@@ -107,8 +121,7 @@ public class QuestionListActivity extends AppCompatActivity {
             if(!success){
                 return;
             }
-            Log.e("1","2");
-            qa=new QuestionAdapter(QuestionListActivity.this,questions,originAnswers,false,false);
+            qa=new QuestionAdapter(QuestionListActivity.this,questions,originAnswers,isAnswered,false);
             viewPager.setAdapter(qa);
             progressBar.setVisibility(View.GONE);
         }

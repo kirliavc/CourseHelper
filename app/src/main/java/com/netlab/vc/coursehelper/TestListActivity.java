@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +44,7 @@ public class TestListActivity extends AppCompatActivity implements SwipeRefreshL
     private TestList testList;
     private TestListActivity instance;
     List<Map<String,Object> >mapList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         instance=this;
@@ -70,7 +70,7 @@ public class TestListActivity extends AppCompatActivity implements SwipeRefreshL
 
     }
     public class getTestListTask extends AsyncTask<Void,Void,Boolean>{
-
+        int[] scoreList;
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
@@ -79,7 +79,6 @@ public class TestListActivity extends AppCompatActivity implements SwipeRefreshL
                 arrayList.add(new Parameters("course_id", courseId));
                 Parameters parameters = WebConnection.connect(Constants.baseUrl + Constants.AddUrls.get("QUIZ_LIST"),
                         arrayList, WebConnection.CONNECT_GET);
-                Log.e(parameters.name, parameters.value);
                 testList = new Gson().fromJson(parameters.value, TestList.class);
                 return true;
             } catch (Exception e) {
@@ -90,8 +89,11 @@ public class TestListActivity extends AppCompatActivity implements SwipeRefreshL
         protected void onPostExecute(Boolean success){
             if(!success)return;
             mapList=new ArrayList<>();
+            scoreList=new int[testList.getQuizzes().length];
             for(int i=0;i<testList.getQuizzes().length;i++){
+
                 TestList.Quiz q=testList.getQuizzes()[i];
+                scoreList[i]=q.getCorrectAnswer()*100/q.getTotal();
                 Map<String,Object> quizItem=new HashMap<>();
                 quizItem.put("name",q.getName());
                 quizItem.put("finish_time", DateHelper.getDateAsMinute(new Date(q.getTo())));
@@ -100,13 +102,16 @@ public class TestListActivity extends AppCompatActivity implements SwipeRefreshL
             testListView.setAdapter(new QuizListAdapter(TestListActivity.this,
                     mapList,
                     R.layout.test_item,new String[]{"name", "finish_time"},
-                    new int[]{R.id.test_name, R.id.finish_time}));
+                    new int[]{R.id.test_name, R.id.finish_time},scoreList));
             testListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent intent=new Intent(TestListActivity.this,QuestionListActivity.class);
                     intent.putExtra("quiz_id",testList.getQuizzes()[position].getQuiz_id());
                     intent.putExtra("course_id",courseId);
+                    intent.putExtra("answered",testList.getQuizzes()[position].getAnswered());
+                    intent.putExtra("quiz_name",testList.getQuizzes()[position].getName());
+
                     startActivity(intent);
                 }
             });
@@ -129,8 +134,10 @@ public class TestListActivity extends AppCompatActivity implements SwipeRefreshL
          * @param to       The views that should display column in the "from" parameter. These should all be
          *                 TextViews. The first N views in this list are given the values of the first N columns
          */
-        public QuizListAdapter(Context context, List<? extends Map<String, ?>> data, int resource, String[] from, int[] to) {
+        int []scoreList;
+        public QuizListAdapter(Context context, List<? extends Map<String, ?>> data, int resource, String[] from, int[] to,int [] _scoreList) {
             super(context, data, resource, from, to);
+            scoreList=_scoreList;
         }
         @Override
         public View getView(final int position, View view, ViewGroup parent){
@@ -141,7 +148,7 @@ public class TestListActivity extends AppCompatActivity implements SwipeRefreshL
             progressBar.getCircularProgressBar().setPrimaryColor(getResources().getColor(R.color.high_red));
             progressBar.setTextSize(15);
             progressBar.setMax(100);
-            progressBar.setProgress(0);
+            progressBar.setProgress(scoreList[position]);
             return convertView;
         }
     }

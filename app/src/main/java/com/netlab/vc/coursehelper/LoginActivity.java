@@ -390,6 +390,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         Constants.email=userInfo.getEmail();
                         Constants.type=userInfo.getType();
                         Constants.username=userInfo.getName();
+                        Constants.admin=userInfo.isAdmin();
                         //Constants.avatars=userInfo.getAvatars();
                     }
 

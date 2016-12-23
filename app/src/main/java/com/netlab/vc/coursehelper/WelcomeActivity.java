@@ -14,4 +14,10 @@ public class WelcomeActivity extends AppCompatActivity {
         Intent intent=new Intent(this,LoginActivity.class);
         startActivity(intent);
     }
+    @Override
+    public void onResume(){
+        super.onResume();
+        Intent intent=new Intent(this,LoginActivity.class);
+        startActivity(intent);
+    }
 }

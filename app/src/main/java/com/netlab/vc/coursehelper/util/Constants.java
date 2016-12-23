@@ -22,11 +22,17 @@ public class Constants {
             put("QUIZ_SUBMIT","/answer/submit");
             put("ELECTIVE_COURSE", "/course/all");
             put("COURSE_SELECT", "/user/attend");
-
-
+            put("ANSWER_QUIZ_INFO","/answer/quiz/info");
+            put("LESSON_INFO","/lesson/info");
+            put("FILE_INFO","/fileinfo/");
+            put("SIGN_INFO","/signin/info");
+            put("SIGN_SUBMIT","/signin/submit");
+            put("ANNOUNCEMENT_INFO", "/notification/getList");
             //teacher API
             put("SIGN_UUID","/sign/uuid");
             put("SIGN_ENABLE","/sign/enable");
+            put("SIGN_DISABLE","/sign/disable");
+
         }
     };
     public static String token= null;
@@ -34,6 +40,7 @@ public class Constants {
     public static String username;
     public static String realname;
     public static String phone,email,type,avatars,password;
+    public static boolean admin;
     public static final HashMap<String, Integer> QuestionTypeName = new HashMap<String, Integer>(){
         {
             put("single choice", R.string.single_choice);

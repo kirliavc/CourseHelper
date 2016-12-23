@@ -5,25 +5,25 @@ package com.netlab.vc.coursehelper.util.jsonResults;
  */
 
 public class SignInInfo {
-    int uuid;
-    int enable;
+    String uuid;
+    boolean enable;
     int total;
-    int signin_id;
-    Boolean success;
+    String signin_id;
+    boolean success;
 
-    public int getUuid() {
+    public String getUuid() {
         return uuid;
     }
 
-    public void setUuid(int uuid) {
+    public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 
-    public int getEnable() {
+    public boolean isEnable() {
         return enable;
     }
 
-    public void setEnable(int enable) {
+    public void setEnable(boolean enable) {
         this.enable = enable;
     }
 
@@ -35,19 +35,19 @@ public class SignInInfo {
         this.total = total;
     }
 
-    public int getSignin_id() {
+    public String getSignin_id() {
         return signin_id;
     }
 
-    public void setSignin_id(int signin_id) {
+    public void setSignin_id(String signin_id) {
         this.signin_id = signin_id;
     }
 
-    public Boolean getSuccess() {
+    public boolean isSuccess() {
         return success;
     }
 
-    public void setSuccess(Boolean success) {
+    public void setSuccess(boolean success) {
         this.success = success;
     }
 }

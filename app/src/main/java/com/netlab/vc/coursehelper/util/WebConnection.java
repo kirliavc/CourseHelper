@@ -19,7 +19,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.HTTP;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -64,13 +63,13 @@ public class WebConnection {
                     String string = paraItem.value;
                     if (string == null || "".equals(string)) continue;
                     paramsList.add(new BasicNameValuePair(paraItem.name, paraItem.value));
-                    if (string.length() >= 300)
-                        string = string.substring(0, 299);
+                    //if (string.length() >= 300)
+                    //    string = string.substring(0, 299);
                     Log.w(paraItem.name, string);
                 }
             }
             //Cookies.addCookie(httpPost);
-            httpPost.setHeader(HTTP.CONTENT_TYPE, "application/x-www-form-urlencoded");
+            httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
             if (paramsList.size() != 0)
                 httpPost.setEntity(new UrlEncodedFormEntity(paramsList, "utf-8"));
 
@@ -127,7 +126,6 @@ public class WebConnection {
             HttpConnectionParams.setSoTimeout(httpParams, 13000);
             DefaultHttpClient httpClient = new DefaultHttpClient(httpParams);
 
-            List<NameValuePair> paramsList = new ArrayList<NameValuePair>();
             URIBuilder uriBuilder=new URIBuilder(url);
             if (params != null) {
                 for (Parameters paraItem : params) {
@@ -173,10 +171,12 @@ public class WebConnection {
                     line = bf.readLine();
                 }
                 parameters.value = string;
-                Log.e(parameters.name,parameters.value);
+
             }
+            Log.e(parameters.name,parameters.value);
             return parameters;
         } catch (Exception e) {
+            Log.e("-1","failed");
             return new Parameters("-1", "");
         }
     }

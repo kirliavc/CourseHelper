@@ -105,12 +105,14 @@ public class RegisterActivity extends AppCompatActivity {
         catch (NumberFormatException e){
             stuID=0;
         }
+        /*
         if(stuID<1000000000||stuID>=2000000000){
             isCorrect=false;
             mUsernameView.setError("请将用户名设为你的学号");
             focusView=mUsernameView;
         }
-        else if(password.length()<6||password.length()>=18){
+
+        else*/ if(password.length()<6||password.length()>=18){
             isCorrect=false;
             mPasswordView.setError("密码限制在6~18位");
             focusView=mPasswordView;
@@ -212,6 +214,7 @@ public class RegisterActivity extends AppCompatActivity {
                         Constants.email=userInfo.getEmail();
                         Constants.type=userInfo.getType();
                         Constants.username=userInfo.getName();
+                        Constants.admin=userInfo.isAdmin();
                         //Constants.avatars=userInfo.getAvatars();
                     }
                     return true;

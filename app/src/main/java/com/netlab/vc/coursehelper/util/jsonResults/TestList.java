@@ -6,7 +6,6 @@ package com.netlab.vc.coursehelper.util.jsonResults;
 
 public class TestList {
     private Quiz[] quizzes;
-    private Answer[] answers;
     private Boolean success;
 
     public Boolean getSuccess() {
@@ -25,13 +24,6 @@ public class TestList {
         this.quizzes = quizzes;
     }
 
-    public Answer[] getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(Answer[] answers) {
-        this.answers = answers;
-    }
 
     public class Quiz{
         private String quiz_id;
@@ -40,6 +32,24 @@ public class TestList {
         private long from;
         private long to;
         private int total;
+        private int answered;
+        private int correctAnswer;
+
+        public int getAnswered() {
+            return answered;
+        }
+
+        public void setAnswered(int answered) {
+            this.answered = answered;
+        }
+
+        public int getCorrectAnswer() {
+            return correctAnswer;
+        }
+
+        public void setCorrectAnswer(int correctAnswer) {
+            this.correctAnswer = correctAnswer;
+        }
 
         public long getFrom() {
             return from;

@@ -12,9 +12,26 @@ public class UserInfo {
     String realName;
     String type;
     String[] avatars;
-    Boolean success;
+    boolean success;
+    boolean admin;
 
-    public Boolean getSuccess() {
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
+    public boolean getSuccess() {
         return success;
     }
 
