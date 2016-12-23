@@ -9,7 +9,16 @@ public class SignInInfo {
     boolean enable;
     int total;
     String signin_id;
+    int user;
     boolean success;
+
+    public int getUser() {
+        return user;
+    }
+
+    public void setUser(int user) {
+        this.user = user;
+    }
 
     public String getUuid() {
         return uuid;

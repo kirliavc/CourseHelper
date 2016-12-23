@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 public class Constants {
     public static final String baseUrl="http://222.29.98.104:3000/api";
+    public static final String privateBaseUrl="http://222.29.98.104:3000/private";
     public static final HashMap<String, String> AddUrls = new HashMap<String, String>(){
         {
             put("LOGIN", "/user/login");
@@ -32,7 +33,7 @@ public class Constants {
             put("SIGN_UUID","/sign/uuid");
             put("SIGN_ENABLE","/sign/enable");
             put("SIGN_DISABLE","/sign/disable");
-
+            put("SIGN_REGISTER","/sign/register");
         }
     };
     public static String token= null;

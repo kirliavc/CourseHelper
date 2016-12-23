@@ -41,6 +41,7 @@ import org.altbeacon.beacon.BeaconTransmitter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -102,8 +103,21 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        //new RegisterTask().execute();
     }
+    public class RegisterTask extends AsyncTask<Void,Void,Boolean>{
 
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            ArrayList<Parameters> arrayList = new ArrayList<Parameters>();
+            arrayList.add(new Parameters("_id", Constants._id));
+            arrayList.add(new Parameters("course_id", course_id));
+            arrayList.add(new Parameters("uuid", teacher_uuid));
+            Parameters parameters = WebConnection.connect(Constants.privateBaseUrl + Constants.AddUrls.get("SIGN_REGISTER"),
+                    arrayList, WebConnection.CONNECT_POST);
+            return parameters.name.equals("200");
+        }
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // TODO Auto-generated method stub
@@ -128,6 +142,7 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
         signUp = (Button) findViewById(R.id.sign_up);
         refreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshLayout);
         progressBar = (ProgressBar) findViewById(R.id.load_progress);
+        UIDs=new HashSet<>();
     }
 
     private void setListeners() {
@@ -311,6 +326,8 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
             courseTeacher.setText(course.getTerm());
             courseDate.setText(course.getIntroduction());
             progressBar.setVisibility(View.GONE);
+            signUpedInfo.setText(String.valueOf(signInInfo.getUser()));
+            absenceInfo.setText(String.valueOf(signInInfo.getTotal()-signInInfo.getUser()));
             if (refreshLayout.isRefreshing())
                 refreshLayout.setRefreshing(false);
         }
@@ -324,7 +341,7 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
                 arrayList.add(new Parameters("_id", Constants._id));
                 arrayList.add(new Parameters("course_id", course_id));
                 arrayList.add(new Parameters("uuid", teacher_uuid));
-                Parameters parameters = WebConnection.connect(Constants.baseUrl + Constants.AddUrls.get("SIGN_UUID"),
+                Parameters parameters = WebConnection.connect(Constants.privateBaseUrl + Constants.AddUrls.get("SIGN_UUID"),
                         arrayList, WebConnection.CONNECT_POST);
                 if (!parameters.name.equals("200"))
                     return false;
@@ -332,7 +349,7 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
                 arrayList = new ArrayList<>();
                 arrayList.add(new Parameters("_id", Constants._id));
                 arrayList.add(new Parameters("course_id", course_id));
-                parameters = WebConnection.connect(Constants.baseUrl + Constants.AddUrls.get("SIGN_ENABLE"),
+                parameters = WebConnection.connect(Constants.privateBaseUrl + Constants.AddUrls.get("SIGN_ENABLE"),
                         arrayList, WebConnection.CONNECT_POST);
                 Log.e(parameters.name, parameters.value);
                 return parameters.name.equals("200");
@@ -365,7 +382,7 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
                 ArrayList<Parameters> arrayList = new ArrayList<Parameters>();
                 arrayList.add(new Parameters("_id", Constants._id));
                 arrayList.add(new Parameters("course_id", course_id));
-                Parameters parameters = WebConnection.connect(Constants.baseUrl + Constants.AddUrls.get("SIGN_UUID"),
+                Parameters parameters = WebConnection.connect(Constants.privateBaseUrl + Constants.AddUrls.get("SIGN_UUID"),
                         arrayList, WebConnection.CONNECT_POST);
                 return parameters.name.equals("200");
             }

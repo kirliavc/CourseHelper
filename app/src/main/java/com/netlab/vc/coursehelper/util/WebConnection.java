@@ -78,7 +78,7 @@ public class WebConnection {
 
             Parameters parameters = new Parameters("", "");
             int returncode = httpResponse.getStatusLine().getStatusCode();
-
+            Log.e("return code",String.valueOf(returncode));
             int encodeingType = getEncodingType(url);
             boolean isGbk = false;
             if (encodeingType == -1) {
