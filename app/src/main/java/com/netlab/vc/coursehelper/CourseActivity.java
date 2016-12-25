@@ -415,7 +415,8 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
                 arrayList.add(new Parameters("course_id", course_id));
                 arrayList.add(new Parameters("device_id",deviceId));
                 arrayList.add(new Parameters("signin_id",signInInfo.getSignin_id()));
-                Parameters parameters = WebConnection.connect(Constants.baseUrl + Constants.AddUrls.get("SIGN_UUID"),
+                arrayList.add(new Parameters("uuid",signInInfo.getUuid()));
+                Parameters parameters = WebConnection.connect(Constants.baseUrl + Constants.AddUrls.get("SIGN_SUBMIT"),
                         arrayList, WebConnection.CONNECT_POST);
                 return parameters.name.equals("200");
 
