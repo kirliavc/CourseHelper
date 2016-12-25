@@ -1,37 +1,15 @@
-<android.support.v4.widget.SwipeRefreshLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/announcement_swipeRefreshLayout"
+    android:id="@+id/announcement_Layout"
     android:background="#e8e8e7"
     >
 
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        >
 
-        <Button
-            android:id="@+id/btnNext"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:gravity="center"
-            android:layout_alignParentBottom="true"
-            android:background="@mipmap/btn_next"
-            android:layout_alignParentRight="true"/>
 
-        <Button
-            android:id="@+id/btnPre"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:gravity="center"
-            android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@id/btnNext"
-            android:background="@mipmap/btn_pre"
-            android:padding="20dp"/>
-
-        <ListView
+        <com.netlab.vc.coursehelper.AutoLoadListview
             android:id="@+id/announcement_listview"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -43,9 +21,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true">
 
-        </ListView>
+        </com.netlab.vc.coursehelper.AutoLoadListview>
 
 
     </RelativeLayout>
-
-</android.support.v4.widget.SwipeRefreshLayout>

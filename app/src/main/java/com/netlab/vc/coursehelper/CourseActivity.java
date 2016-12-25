@@ -77,6 +77,7 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
     private Boolean signUpStats = false;//老师修改signUpStats
     private String teacher_uuid;
     public static final String IBEACON_FORMAT = "m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24";
+    private String signinId;
     BeaconTransmitter beaconTransmitter;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -207,7 +208,6 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
             refresh();
         }
     }
-
     public void getData() {
         new GetCourseInfoTask().execute();
         if (Constants.admin) {
@@ -222,7 +222,6 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
             Toast.makeText(getApplicationContext(),"当前时间段不可签到，请尝试刷新",Toast.LENGTH_LONG).show();
             return;
         }
-        signUp.setBackgroundColor(getResources().getColor(R.color.gray));
         signUp.setClickable(false);
         signUp.setText(R.string.signuping);
         UIDs.clear();
@@ -237,6 +236,7 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
                 else{
                     Toast.makeText(CourseActivity.this, "未扫描到课程IBeacon", Toast.LENGTH_SHORT).show();
                 }
+                mBluetoothAdapter.stopLeScan(mLeScanCallback);
             }
         },3000);
     }
@@ -244,7 +244,6 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
     private void startSignUp() {
         teacher_uuid=generateRandom();
 
-        signUp.setBackgroundColor(getResources().getColor(R.color.gray));
         signUp.setClickable(false);
         signUpStats=true;
         new StartSignUpTask().execute();
@@ -252,7 +251,7 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
     private void finishSignUp(){
         signUpStats=false;
         signUp.setClickable(true);
-        signUp.setBackgroundColor(getResources().getColor(R.color.cherry_red));
+        signUp.setText("开启签到");
         new FinishSignUpTask().execute();
     }
 
@@ -286,7 +285,8 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
     @Override
     public void onStop() {
         super.onStop();
-
+        if(signUpStats)
+            finishSignUp();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
@@ -351,6 +351,7 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
                 arrayList.add(new Parameters("course_id", course_id));
                 parameters = WebConnection.connect(Constants.privateBaseUrl + Constants.AddUrls.get("SIGN_ENABLE"),
                         arrayList, WebConnection.CONNECT_POST);
+                signinId=new Gson().fromJson(parameters.value,SignInInfo.class).getSignin_id();
                 Log.e(parameters.name, parameters.value);
                 return parameters.name.equals("200");
             } catch (Exception e) {
@@ -365,7 +366,6 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
                 Toast.makeText(getApplicationContext(), "开启签到成功！", Toast.LENGTH_SHORT).show();
                 signUp.setText("停止签到!");
                 signUp.setClickable(true);
-                signUp.setBackgroundColor(getResources().getColor(R.color.cherry_red));
             }
 
 
@@ -382,7 +382,8 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
                 ArrayList<Parameters> arrayList = new ArrayList<Parameters>();
                 arrayList.add(new Parameters("_id", Constants._id));
                 arrayList.add(new Parameters("course_id", course_id));
-                Parameters parameters = WebConnection.connect(Constants.privateBaseUrl + Constants.AddUrls.get("SIGN_UUID"),
+                arrayList.add(new Parameters("signin_id", signinId));
+                Parameters parameters = WebConnection.connect(Constants.privateBaseUrl + Constants.AddUrls.get("SIGN_DISABLE"),
                         arrayList, WebConnection.CONNECT_POST);
                 return parameters.name.equals("200");
             }
@@ -392,12 +393,15 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
         }
         @Override
         public void onPostExecute(Boolean success){
+
             if(beaconTransmitter != null)
                 beaconTransmitter.stopAdvertising();
-            Log.e(TAG,"停止签到成功！");
             if(!success){
+                Log.e(TAG,"停止签到失败！");
                 return;
             }
+            Log.e(TAG,"停止签到成功！");
+
 
         }
     }
@@ -427,7 +431,6 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
                 return;
             }
             Toast.makeText(CourseActivity.this, "签到成功！", Toast.LENGTH_SHORT).show();
-            signUp.setBackgroundColor(getResources().getColor(R.color.cherry_red));
             signUp.setClickable(true);
             signUp.setText(R.string.signup);
         }
