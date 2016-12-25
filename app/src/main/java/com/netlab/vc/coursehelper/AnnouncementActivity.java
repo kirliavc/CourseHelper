@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.google.gson.Gson;
-import com.netlab.vc.coursehelper.AutoLoadListview.OnLoadListener;
-import com.netlab.vc.coursehelper.AutoLoadListview.OnRefreshListener;
 import com.netlab.vc.coursehelper.util.Constants;
 import com.netlab.vc.coursehelper.util.Parameters;
 import com.netlab.vc.coursehelper.util.WebConnection;
@@ -17,57 +20,47 @@ import com.netlab.vc.coursehelper.util.jsonResults.Announcement;
 import com.netlab.vc.coursehelper.util.jsonResults.AnnouncementResult;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by dingfeifei on 16/12/16.
  */
 
-public class AnnouncementActivity extends AppCompatActivity implements OnRefreshListener, OnLoadListener {
+public class AnnouncementActivity extends AppCompatActivity implements OnScrollListener {
     Announcement[] announcementList = new Announcement[]{};
     String courseName;
     private int page = 1;
+    private int lastVisibleIndex;
+    private int newIndex;
     //private ListView announceListView;
     private AnnouncementAdapter adapter;
     ArrayList<Parameters> arrayList = new ArrayList<Parameters>();
     //private SwipeRefreshLayout refreshLayout;
-    private AutoLoadListview myLayout;
-
+    private ListView myLayout;
+    private LinearLayout footer;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_announcement);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//显示返回箭头
         Intent intent = getIntent();
         courseName = intent.getStringExtra("course_id");
-        myLayout = (AutoLoadListview) findViewById(R.id.announcement_listview);
-
-        myLayout.setOnRefreshListener(this);
-        myLayout.setOnLoadListener(this);
+        myLayout = (ListView) findViewById(R.id.announcement_listview);
+        footer=(LinearLayout)findViewById(R.id.footer_layout);
+        myLayout.setOnScrollListener(this);
         initData();
     }
 
     private void initData() {
         page = 1;
-        loadData(AutoLoadListview.REFRESH);
+        loadData();
     }
 
-    private void loadData(final int what) {
+    private void loadData() {
         // 这里模拟从服务器获取数据
         new GetAnnouncementTask().execute();
     }
 
-    @Override
-    public void onRefresh() {
-        page--;
-        if (page <= 0)
-            page = 1;
-        loadData(AutoLoadListview.REFRESH);
-    }
 
-    @Override
-    public void onLoad() {
-        page++;
-        loadData(AutoLoadListview.LOAD);
-    }
 
 
     @Override
@@ -80,10 +73,34 @@ public class AnnouncementActivity extends AppCompatActivity implements OnRefresh
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+        if(scrollState==OnScrollListener.SCROLL_STATE_IDLE
+                &&lastVisibleIndex==adapter.getCount()){
 
+            page++;
+            new GetAnnouncementTask().execute();
+        }
 
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int
+            totalItemCount) {
+        lastVisibleIndex=firstVisibleItem+visibleItemCount;
+        newIndex=firstVisibleItem;
+    }
+    public static <T> T[] concat(T[] first, T[] second) {
+        T[] result = Arrays.copyOf(first, first.length + second.length);
+        System.arraycopy(second, 0, result, first.length, second.length);
+        return result;
+    }
 
     public class GetAnnouncementTask extends AsyncTask<Void,Void,Boolean> {
+        @Override
+        public void onPreExecute(){
+            footer.setVisibility(View.VISIBLE);
+        }
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
@@ -95,14 +112,15 @@ public class AnnouncementActivity extends AppCompatActivity implements OnRefresh
                         arrayList,WebConnection.CONNECT_GET);
                 Log.e(parameters.name,parameters.value);
                 AnnouncementResult announcementResult = new Gson().fromJson(parameters.value, AnnouncementResult.class);
-                Log.e("length:",String.valueOf(announcementResult.getAnnouncements().length));
                 if(announcementResult.getSuccess()) {
-                    Log.e(announcementResult.getSuccess().toString(),"1");
-                    announcementList=announcementResult.getAnnouncements();
-                    if (announcementList.length > 0)
+                    announcementList= concat(announcementList,announcementResult.getAnnouncements());
+                    if (announcementResult.getAnnouncements().length > 0)
                         return true;
-                    else
+                    else{
+                        page--;
                         return false;
+                    }
+
                 }
                 else
                     return false;
@@ -112,17 +130,14 @@ public class AnnouncementActivity extends AppCompatActivity implements OnRefresh
         }
         @Override
         protected void onPostExecute(Boolean result){
+            footer.setVisibility(View.GONE);
             if(!result){
-                page--;
-                myLayout.onRefreshComplete();
                 return;
             }
-            Log.e("result",String.valueOf(result));
-            myLayout.setResultSize(announcementList.length);
-            myLayout.setAdapter(new AnnouncementAdapter(AnnouncementActivity.this,R.layout.announcement_item,announcementList));
-            //adapter = new AnnouncementAdapter(AnnouncementActivity.this, R.layout.announcement_item, announcementList);
-            //myLayout.setAdapter(adapter);
-            myLayout.onRefreshComplete();
+            //myLayout.setAdapter(new AnnouncementAdapter(AnnouncementActivity.this,R.layout.announcement_item,announcementList));
+            adapter = new AnnouncementAdapter(AnnouncementActivity.this, R.layout.announcement_item, announcementList);
+            myLayout.setAdapter(adapter);
+            myLayout.setSelection(newIndex);
         }
     }
 }

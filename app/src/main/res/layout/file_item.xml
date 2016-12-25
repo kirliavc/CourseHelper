@@ -9,7 +9,8 @@
         android:layout_height="30dp"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
-        app:srcCompat="?android:attr/actionModeCopyDrawable"
+        android:src="@drawable/download_pdf"
+
         android:layout_alignParentTop="true"
         android:id="@+id/file_logo"/>
 
