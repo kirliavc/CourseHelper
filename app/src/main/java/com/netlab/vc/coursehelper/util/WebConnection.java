@@ -14,6 +14,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
@@ -21,6 +22,7 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -125,7 +127,7 @@ public class WebConnection {
             HttpConnectionParams.setConnectionTimeout(httpParams, 4000);
             HttpConnectionParams.setSoTimeout(httpParams, 13000);
             DefaultHttpClient httpClient = new DefaultHttpClient(httpParams);
-
+            URIBuilder gt;
             URIBuilder uriBuilder=new URIBuilder(url);
             if (params != null) {
                 for (Parameters paraItem : params) {
@@ -203,7 +205,54 @@ public class WebConnection {
         return httpResponse.getEntity().getContent();
     }
 
+    public static Parameters uploadFile(String url,ArrayList<Parameters> params, String filePath)
+    throws IOException{
 
+        url = url.trim();
+        HttpParams httpParams = new BasicHttpParams();
+        HttpConnectionParams.setConnectionTimeout(httpParams, 4000);
+        HttpConnectionParams.setSoTimeout(httpParams, 13000);
+        DefaultHttpClient httpClient=new DefaultHttpClient(httpParams);
+        HttpPost httppost = new HttpPost(url);
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        File file=new File(filePath);
+        builder.addBinaryBody("upload", file);
+        Log.w("postURL", url);
+        if (params != null) {
+            for (Parameters paraItem : params) {
+                String string = paraItem.value;
+                if (string == null || "".equals(string)) continue;
+                builder.addTextBody(paraItem.name,string);
+                //if (string.length() >= 300)
+                //    string = string.substring(0, 299);
+                Log.w(paraItem.name, string);
+            }
+        }
+        //Cookies.addCookie(httpPost);
+        //httppost.setHeader("Content-Type", "multipart/form-data");
+
+        httppost.setEntity(builder.build());
+        HttpResponse httpResponse=httpClient.execute(httppost);
+        Parameters parameters = new Parameters("", "");
+        int returncode = httpResponse.getStatusLine().getStatusCode();
+        parameters.name = returncode + "";
+
+        if (returncode == 200) {
+            BufferedReader bf;
+                bf = new BufferedReader(
+                        new InputStreamReader(httpResponse.getEntity().getContent()));
+            String string = "";
+            String line = bf.readLine();
+            while (line != null) {
+                string = string + line + "\n";
+                line = bf.readLine();
+            }
+            string = string.trim();
+            parameters.value = string;
+        }
+        Log.e(parameters.name,parameters.value);
+        return parameters;
+    }
 
 
     private static int getEncodingType(String url) {

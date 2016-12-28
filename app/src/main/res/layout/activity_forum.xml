@@ -1,35 +1,35 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/announcement_Layout"
+    android:fitsSystemWindows="true"
     android:background="#e8e8e7"
     >
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ListView
-            android:id="@+id/announcement_listview"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:divider="@null"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true">
+    <ListView
+        android:id="@+id/forum_listview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:divider="@null"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
-        </ListView>
+    </ListView>
     </android.support.v4.widget.SwipeRefreshLayout>
-
-
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content"
-                  android:gravity="center"
-                  android:paddingTop="5dip"
-                  android:paddingBottom="8dip"
-                  android:layout_below="@id/announcement_listview"
-                  android:id="@+id/footer_layout"
-                  android:visibility="gone">
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="5dip"
+        android:paddingBottom="8dip"
+        android:layout_below="@id/refreshLayout"
+        android:id="@+id/footer_layout"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/loadFull"
@@ -62,5 +62,13 @@
             style="@style/customProgressBar" />
 
     </LinearLayout>
-
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_newpost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        app:srcCompat="@drawable/ic_create_black_24dp"/>
 </RelativeLayout>

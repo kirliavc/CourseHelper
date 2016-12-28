@@ -29,6 +29,8 @@ public class Constants {
             put("SIGN_INFO","/signin/info");
             put("SIGN_SUBMIT","/signin/submit");
             put("ANNOUNCEMENT_INFO", "/notification/getList");
+            put("FORUM_INFO", "/forum/getList");
+            put("FORUM_POST", "/forum/post");
             //teacher API
             put("SIGN_UUID","/sign/uuid");
             put("SIGN_ENABLE","/sign/enable");

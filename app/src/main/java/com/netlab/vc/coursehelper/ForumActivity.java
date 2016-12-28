@@ -3,6 +3,7 @@ package com.netlab.vc.coursehelper;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -17,8 +18,8 @@ import com.google.gson.Gson;
 import com.netlab.vc.coursehelper.util.Constants;
 import com.netlab.vc.coursehelper.util.Parameters;
 import com.netlab.vc.coursehelper.util.WebConnection;
-import com.netlab.vc.coursehelper.util.jsonResults.Announcement;
 import com.netlab.vc.coursehelper.util.jsonResults.AnnouncementResult;
+import com.netlab.vc.coursehelper.util.jsonResults.Forum;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,33 +28,43 @@ import java.util.Arrays;
  * Created by dingfeifei on 16/12/16.
  */
 
-public class AnnouncementActivity extends AppCompatActivity implements OnScrollListener,SwipeRefreshLayout.OnRefreshListener {
-    Announcement[] announcementList = new Announcement[]{};
-    String courseName;
+public class ForumActivity extends AppCompatActivity implements OnScrollListener,SwipeRefreshLayout.OnRefreshListener {
+    Forum[] forumList;
+    String courseId;
     private int page = 1;
     private int lastVisibleIndex;
     private int newIndex;
-    //private ListView announceListView;
-    private AnnouncementAdapter adapter;
+    private ForumAdapter adapter;
     ArrayList<Parameters> arrayList = new ArrayList<Parameters>();
     private SwipeRefreshLayout refreshLayout;
     private ListView myLayout;
     private LinearLayout footer;
+    private FloatingActionButton newPostButton;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_announcement);
+        setContentView(R.layout.activity_forum);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);//显示返回箭头
         Intent intent = getIntent();
-        courseName = intent.getStringExtra("course_id");
-        myLayout = (ListView) findViewById(R.id.announcement_listview);
+        forumList=new Forum[]{};
+        courseId = intent.getStringExtra("course_id");
+        myLayout = (ListView) findViewById(R.id.forum_listview);
         footer=(LinearLayout)findViewById(R.id.footer_layout);
         refreshLayout=(SwipeRefreshLayout)findViewById(R.id.refreshLayout);
+        newPostButton=(FloatingActionButton)findViewById(R.id.fab_newpost);
+        newPostButton.setOnClickListener(new NewPostClickListener());
         refreshLayout.setOnRefreshListener(this);
-        adapter = new AnnouncementAdapter(AnnouncementActivity.this, R.layout.announcement_item, announcementList);
         myLayout.setOnScrollListener(this);
-        initData();
+        //initData();
     }
+    public class NewPostClickListener implements View.OnClickListener{
 
+        @Override
+        public void onClick(View v) {
+            Intent intent=new Intent(ForumActivity.this,NewPostActivity.class);
+            intent.putExtra("course_id",courseId);
+            startActivity(intent);
+        }
+    }
     private void initData() {
         page = 1;
         loadData();
@@ -61,7 +72,7 @@ public class AnnouncementActivity extends AppCompatActivity implements OnScrollL
 
     private void loadData() {
         // 这里模拟从服务器获取数据
-        new GetAnnouncementTask().execute();
+        new GetForumTask().execute();
     }
 
 
@@ -83,7 +94,7 @@ public class AnnouncementActivity extends AppCompatActivity implements OnScrollL
                 &&lastVisibleIndex==adapter.getCount()){
 
             page++;
-            new GetAnnouncementTask().execute();
+            new GetForumTask().execute();
         }
 
     }
@@ -103,13 +114,19 @@ public class AnnouncementActivity extends AppCompatActivity implements OnScrollL
     @Override
     public void onRefresh() {
         if(refreshLayout.isRefreshing()){
-            announcementList=new Announcement[]{};
+            forumList=new Forum[]{};
             page=1;
-            new GetAnnouncementTask().execute();
+            new GetForumTask().execute();
         }
     }
-
-    public class GetAnnouncementTask extends AsyncTask<Void,Void,Boolean> {
+    @Override
+    public void onResume(){
+        super.onResume();
+        forumList=new Forum[]{};
+        page=1;
+        new GetForumTask().execute();
+    }
+    public class GetForumTask extends AsyncTask<Void,Void,Boolean> {
         @Override
         public void onPreExecute(){
             footer.setVisibility(View.VISIBLE);
@@ -119,14 +136,16 @@ public class AnnouncementActivity extends AppCompatActivity implements OnScrollL
             try {
                 ArrayList<Parameters> arrayList = new ArrayList<Parameters>();
                 arrayList.add(new Parameters("_id", Constants._id));
+                arrayList.add(new Parameters("course_id", courseId));
+                arrayList.add(new Parameters("type", "EX"));
                 arrayList.add(new Parameters("page", String.valueOf(page)));
-                arrayList.add(new Parameters("course_id", courseName));
-                Parameters parameters = WebConnection.connect(Constants.baseUrl+Constants.AddUrls.get("ANNOUNCEMENT_INFO"),
+                Parameters parameters = WebConnection.connect(Constants.baseUrl+Constants.AddUrls.get("FORUM_INFO"),
                         arrayList,WebConnection.CONNECT_GET);
-                AnnouncementResult announcementResult = new Gson().fromJson(parameters.value, AnnouncementResult.class);
-                if(announcementResult.getSuccess()) {
-                    announcementList= concat(announcementList,announcementResult.getAnnouncements());
-                    if (announcementResult.getAnnouncements().length > 0)
+                Log.e(parameters.name,parameters.value);
+                AnnouncementResult.ForumResult forumResult = new Gson().fromJson(parameters.value, AnnouncementResult.ForumResult.class);
+                if(forumResult.getSuccess()) {
+                    forumList= concat(forumList,forumResult.getForums());
+                    if (forumResult.getForums().length > 0)
                         return true;
                     else{
                         page--;
@@ -147,8 +166,7 @@ public class AnnouncementActivity extends AppCompatActivity implements OnScrollL
                 return;
             }
             //myLayout.setAdapter(new AnnouncementAdapter(AnnouncementActivity.this,R.layout.announcement_item,announcementList));
-            Log.e("1","2");
-            adapter=new AnnouncementAdapter(AnnouncementActivity.this,R.layout.announcement_item,announcementList);
+            adapter = new ForumAdapter(ForumActivity.this, R.layout.forum_item, forumList);
             myLayout.setAdapter(adapter);
             myLayout.setSelection(newIndex);
             if(refreshLayout.isRefreshing())

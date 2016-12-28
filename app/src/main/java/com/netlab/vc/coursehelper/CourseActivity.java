@@ -170,12 +170,16 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
         });
         forumList.setOnClickListener(new LinearLayout.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(CourseActivity.this, LoginActivity.class);
+
+                Intent intent = new Intent(CourseActivity.this, ForumActivity.class);
+                intent.putExtra("course_id", course_id);
+                startActivity(intent);
             }
         });
         groupList.setOnClickListener(new LinearLayout.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(CourseActivity.this, LoginActivity.class);
+                Intent intent = new Intent(CourseActivity.this, GroupActivity.class);
+                startActivity(intent);
             }
         });
         refreshLayout.setOnRefreshListener(this);
