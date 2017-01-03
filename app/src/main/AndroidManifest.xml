@@ -81,6 +81,10 @@
         <activity android:name=".NewPostActivity"
                   >
         </activity>
+        <activity
+            android:name=".PostDetailActivity"
+            android:label="论坛">
+        </activity>
     </application>
 
 </manifest>

@@ -19,7 +19,7 @@ public class ForumResult{
         return postings;
     }
 
-    public void setAnnouncements(Forum[] postings) {
+    public void setForums(Forum[] postings) {
         this.postings = postings;
     }
 }
