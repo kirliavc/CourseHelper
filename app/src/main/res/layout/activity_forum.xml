@@ -7,10 +7,52 @@
     android:fitsSystemWindows="true"
     android:background="#e8e8e7"
     >
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:id="@+id/top_tab"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:text="@string/forum_type_qa"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:text="@string/forum_type_ex"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <View
+                android:layout_width="40dp"
+                android:layout_height="2dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:background="@color/light_red" />
+            <View
+                android:layout_width="40dp"
+                android:layout_height="2dp"
+                android:layout_weight="1"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/bg_gray"
+
+                />
+        </LinearLayout>
+        </LinearLayout>
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top_tab">
     <ListView
         android:id="@+id/forum_listview"
         android:layout_width="fill_parent"

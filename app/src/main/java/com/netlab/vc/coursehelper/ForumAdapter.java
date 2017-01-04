@@ -48,9 +48,11 @@ public class ForumAdapter extends BaseAdapter implements ListAdapter {
             view=viewInflater.inflate(layout,parent,false);
         }
         TextView forumNameView=(TextView)view.findViewById(R.id.forum_listitem_title);
-        TextView forumContentView=(TextView)view.findViewById(R.id.forum_listitem_text);
+        //TextView forumContentView=(TextView)view.findViewById(R.id.forum_listitem_text);
         TextView announcementTimeView=(TextView)view.findViewById(R.id.forum_listitem_time);
         forumNameView.setText(forumList[position].getTitle());
+        TextView forumAuthorView=(TextView)view.findViewById(R.id.forum_listitem_author);
+        forumAuthorView.setText(forumList[position].getPostUser_id());
         //forumContentView.setText(forumList[position].getContent());
         announcementTimeView.setText(String.valueOf(forumList[position].getPostDate()));
         return view;

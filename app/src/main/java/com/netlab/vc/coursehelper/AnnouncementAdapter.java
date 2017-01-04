@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.netlab.vc.coursehelper.util.DateFormatter;
 import com.netlab.vc.coursehelper.util.jsonResults.Announcement;
 
 /**
@@ -52,7 +53,7 @@ public class AnnouncementAdapter extends BaseAdapter implements ListAdapter {
         TextView announcementTimeView=(TextView)view.findViewById(R.id.announcement_listitem_time);
         announcementNameView.setText(announcementList[position].getTitle());
         announcementContentView.setText(announcementList[position].getContent());
-        announcementTimeView.setText(String.valueOf(announcementList[position].getCreate_at()));
+        announcementTimeView.setText(DateFormatter.format(announcementList[position].getCreate_at()));
         return view;
     }
 }

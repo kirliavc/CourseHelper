@@ -55,9 +55,13 @@
             android:name=".QuestionListActivity"
             android:label="">
         </activity>
-        <activity android:name=".CourseContentActivity">
+        <activity
+            android:name=".CourseContentActivity"
+            android:label="内容">
         </activity>
-        <activity android:name=".LessonActivity">
+        <activity
+            android:name=".LessonActivity"
+            android:label="内容">
         </activity>
         <activity
             android:name=".AnnouncementActivity"
@@ -71,7 +75,9 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
 
-        <activity android:name=".ForumActivity">
+        <activity
+            android:name=".ForumActivity"
+            android:label="论坛">
         </activity>
         <activity
             android:name=".GroupActivity"
@@ -79,7 +85,7 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity android:name=".NewPostActivity"
-                  >
+            >
         </activity>
         <activity
             android:name=".PostDetailActivity"

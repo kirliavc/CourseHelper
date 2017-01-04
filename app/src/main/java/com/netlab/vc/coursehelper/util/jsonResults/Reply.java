@@ -7,20 +7,12 @@ package com.netlab.vc.coursehelper.util.jsonResults;
 public class Reply{
 
     private String replyUser_id;//回复人的 id String
+    //private String
     private String content;//回复内容 String
     private Number like;//回复的被点赞数 Number
     private Long postDate;//回复时间 Date
     private Boolean replyed;//回复是否被回复过 bool
     private String reply_id;//回复的 id String
-    private Boolean success;
-
-    public Boolean getSuccess() {
-        return success;
-    }
-
-    public void setSuccess(Boolean success) {
-        this.success = success;
-    }
 
 
 
@@ -28,7 +20,7 @@ public class Reply{
         return reply_id;
     }
 
-    public void setReply_i(String reply_id) {
+    public void setReply_id(String reply_id) {
         this.reply_id = reply_id;
     }
 
@@ -72,5 +64,5 @@ public class Reply{
         this.replyed = replyed;
     }
 
-
+    Reply(){}
 }

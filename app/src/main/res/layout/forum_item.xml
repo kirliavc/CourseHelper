@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
 
     <View
         android:layout_width="0dp"
@@ -13,7 +13,7 @@
         android:layout_marginRight="5dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
-        android:background="@drawable/corners_bg_color"
+        android:background="@drawable/corners_bg"
         android:layout_centerInParent="true"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
 
         <TextView
             android:id="@+id/forum_listitem_title"
-            android:textSize="12sp"
+            android:textSize="18sp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginStart="10dp"
@@ -33,36 +33,6 @@
             android:textColor="#636363"
             />
 
-
-        <TextView
-            android:id="@+id/forum_listitem_text"
-            android:textSize="14sp"
-            android:lineSpacingExtra="5sp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="7dp"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="false"
-            />
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:orientation="vertical"
-            android:id="@+id/forum_listitem_image_layout"
-            android:visibility="gone"
-            >
-
-        </RelativeLayout>
 
 
         <RelativeLayout
@@ -77,7 +47,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:textSize="12sp"
-                android:id="@+id/forum_listitem_time"
+                android:id="@+id/forum_listitem_author"
                 android:textColor="#555555"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -90,7 +60,7 @@
                 android:textSize="12sp"
                 android:layout_marginRight="10dp"
                 android:layout_marginEnd="10dp"
-                android:id="@+id/forum_listitem_reply"
+                android:id="@+id/forum_listitem_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />

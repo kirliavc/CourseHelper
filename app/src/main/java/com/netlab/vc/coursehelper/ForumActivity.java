@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -30,7 +31,7 @@ import java.util.Arrays;
  * Created by dingfeifei on 16/12/16.
  */
 
-public class ForumActivity extends AppCompatActivity implements OnScrollListener,SwipeRefreshLayout.OnRefreshListener {
+public class ForumActivity extends AppCompatActivity implements OnScrollListener,SwipeRefreshLayout.OnRefreshListener, ViewPager.OnPageChangeListener {
     Forum[] forumList;
     String courseId;
     private int page = 1;
@@ -58,6 +59,22 @@ public class ForumActivity extends AppCompatActivity implements OnScrollListener
         myLayout.setOnScrollListener(this);
         //initData();
     }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
     public class NewPostClickListener implements View.OnClickListener{
 
         @Override
@@ -179,7 +196,7 @@ public class ForumActivity extends AppCompatActivity implements OnScrollListener
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent intent=new Intent(ForumActivity.this, PostDetailActivity.class);
-                    //intent.putExtra("course_id",courseId);
+                    intent.putExtra("course_id",courseId);
                     intent.putExtra("posting_id",forumList[position].getPosting_id());
                     startActivity(intent);
                 }

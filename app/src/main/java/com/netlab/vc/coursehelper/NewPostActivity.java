@@ -64,6 +64,7 @@ public class NewPostActivity extends AppCompatActivity {
                 ArrayList<Parameters> arrayList = new ArrayList<Parameters>();
                 arrayList.add(new Parameters("_id", Constants._id));
                 arrayList.add(new Parameters("user_id", Constants._id));
+                arrayList.add(new Parameters("name",Constants.realname));
                 arrayList.add(new Parameters("course_id", courseId));
                 arrayList.add(new Parameters("title", mTitle.toString()));
                 arrayList.add(new Parameters("content", mContent.toString()));

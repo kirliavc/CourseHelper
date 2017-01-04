@@ -73,4 +73,6 @@
     <string name="signup">签到</string>
     <string name="download">下载</string>
     <string name="title_activity_test">TestActivity</string>
+    <string name="forum_type_qa">答疑解惑</string>
+    <string name="forum_type_ex">经验分享</string>
 </resources>
