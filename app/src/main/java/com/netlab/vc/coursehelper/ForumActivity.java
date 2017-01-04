@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.netlab.vc.coursehelper.util.Parameters;
 
@@ -22,7 +23,8 @@ public class ForumActivity extends AppCompatActivity implements  ViewPager.OnPag
 
     ArrayList<Parameters> arrayList = new ArrayList<Parameters>();
     private ViewPager vpager;
-
+    private View lineEx,lineQa;
+    private TextView textEx,textQa;
     private FloatingActionButton newPostButton;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,9 +35,23 @@ public class ForumActivity extends AppCompatActivity implements  ViewPager.OnPag
         vpager.setCurrentItem(0);
         vpager.addOnPageChangeListener(this);
         newPostButton=(FloatingActionButton)findViewById(R.id.fab_newpost);
+        lineEx=findViewById(R.id.ex_underline);
+        lineQa=findViewById(R.id.qa_underline);
+        textEx=(TextView)findViewById(R.id.text_ex);
+        textQa=(TextView)findViewById(R.id.text_qa);
+        textEx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                vpager.setCurrentItem(1);
+            }
+        });
+        textQa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                vpager.setCurrentItem(0);
+            }
+        });
         newPostButton.setOnClickListener(new NewPostClickListener());
-
-
         //initData();
     }
 
@@ -51,7 +67,16 @@ public class ForumActivity extends AppCompatActivity implements  ViewPager.OnPag
 
     @Override
     public void onPageScrollStateChanged(int state) {
-
+        if(state==2){
+            if(vpager.getCurrentItem()==1){
+                lineEx.setBackgroundColor(getResources().getColor(R.color.light_red));
+                lineQa.setBackgroundColor(getResources().getColor(R.color.bg_gray));
+            }
+            else{
+                lineQa.setBackgroundColor(getResources().getColor(R.color.light_red));
+                lineEx.setBackgroundColor(getResources().getColor(R.color.bg_gray));
+            }
+        }
     }
 
     public class NewPostClickListener implements View.OnClickListener{

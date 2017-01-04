@@ -32,6 +32,7 @@ public class ForumPageFragment extends Fragment
     private SwipeRefreshLayout refreshLayout;
     private LinearLayout footer;
     private ListView myLayout;
+
     private ForumAdapter adapter;
     private int page = 1;
     private int lastVisibleIndex;
@@ -115,7 +116,7 @@ public class ForumPageFragment extends Fragment
                 ArrayList<Parameters> arrayList = new ArrayList<Parameters>();
                 arrayList.add(new Parameters("_id", Constants._id));
                 arrayList.add(new Parameters("course_id", courseId));
-                arrayList.add(new Parameters("type", "EX"));
+                arrayList.add(new Parameters("type", type));
                 arrayList.add(new Parameters("page", String.valueOf(page)));
                 Parameters parameters = WebConnection.connect(Constants.baseUrl+Constants.AddUrls.get("FORUM_INFO"),
                         arrayList,WebConnection.CONNECT_GET);
@@ -132,7 +133,6 @@ public class ForumPageFragment extends Fragment
                         page--;
                         return false;
                     }
-
                 }
                 else
                     return false;

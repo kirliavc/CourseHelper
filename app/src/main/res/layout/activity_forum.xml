@@ -21,12 +21,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1.0"
                 android:gravity="center"
+                android:id="@+id/text_qa"
                 android:text="@string/forum_type_qa"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.0"
                 android:gravity="center"
+                android:id="@+id/text_ex"
                 android:text="@string/forum_type_ex"/>
         </LinearLayout>
         <LinearLayout
@@ -37,12 +39,14 @@
                 android:layout_height="2dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
+                android:id="@+id/qa_underline"
                 android:background="@color/light_red" />
             <View
                 android:layout_width="40dp"
                 android:layout_height="2dp"
                 android:layout_weight="1"
                 android:layout_gravity="center_horizontal"
+                android:id="@+id/ex_underline"
                 android:background="@color/bg_gray"
 
                 />
