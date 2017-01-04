@@ -1,8 +1,10 @@
 package com.netlab.vc.coursehelper;
 
 import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.netlab.vc.coursehelper.util.Constants;
@@ -40,6 +43,7 @@ public class LessonActivity extends AppCompatActivity implements SwipeRefreshLay
     private List<Map<String,Object>> fileList;
     private FileMeta[] fileMetas;
     private DownloadManager downloadManager;
+    private BroadcastReceiver broadcastReceiver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,6 +128,7 @@ public class LessonActivity extends AppCompatActivity implements SwipeRefreshLay
                     request.addRequestHeader("x-access-token", Constants.token);
                     request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
                     long reference = downloadManager.enqueue(request);
+                    listener(reference);
 
                 }
             });
@@ -132,7 +137,21 @@ public class LessonActivity extends AppCompatActivity implements SwipeRefreshLay
                 refreshLayout.setRefreshing(false);
         }
     }
-    public class DownLoadFileAdapter extends SimpleAdapter{
+    private void listener(final long Id) {
+        // 注册广播监听系统的下载完成事件。
+        IntentFilter intentFilter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                long ID = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+                if (ID == Id) {
+                    Toast.makeText(getApplicationContext(), "下载完成!", Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+        registerReceiver(broadcastReceiver, intentFilter);
+    }
+        public class DownLoadFileAdapter extends SimpleAdapter{
 
         /**
          * Constructor

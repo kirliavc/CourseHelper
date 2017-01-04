@@ -82,15 +82,15 @@ public class GroupActivity extends AppCompatActivity {
             try{
                 ArrayList<Parameters> arrayList=new ArrayList<>();
                 arrayList.add(new Parameters("_id",Constants._id));
-                //arrayList.add(new Parameters("user_id",Constants._id));
-                arrayList.add(new Parameters("course_id","58316127c811cb140af78198"));
-                arrayList.add(new Parameters("token",Constants.token));
-                arrayList.add(new Parameters("like_id","5862a1e1e42daccd27526c09"));
-                arrayList.add(new Parameters("type","posting"));
-                //arrayList.add(new Parameters("content","output_reply_tracer_high_\nTasks"));
+                arrayList.add(new Parameters("user_id",Constants._id));
+                //arrayList.add(new Parameters("course_id","58316127c811cb140af78198"));
+                //arrayList.add(new Parameters("token",Constants.token));
+                arrayList.add(new Parameters("posting_id","5862a1e1e42daccd27526c09"));
+                //arrayList.add(new Parameters("type","posting"));
+                arrayList.add(new Parameters("content","output_reply_tracer_high_\nTasks"));
                 Parameters parameters= WebConnection.connect(
-                        Constants.baseUrl+Constants.AddUrls.get("FORUM_LIKE"),arrayList,CONNECT_POST);
-                //        Constants.baseUrl+Constants.AddUrls.get("FORUM_REPLY"),arrayList,CONNECT_POST);
+                //        Constants.baseUrl+Constants.AddUrls.get("FORUM_LIKE"),arrayList,CONNECT_POST);
+                       Constants.baseUrl+Constants.AddUrls.get("FORUM_REPLY"),arrayList,CONNECT_POST);
                 return parameters.name.equals("200");
             }
             catch (Exception e){

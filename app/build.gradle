@@ -43,8 +43,11 @@ dependencies {
     compile 'com.google.android.gms:play-services-ads:8.4.0'
 }
 dependencies {
+    compile 'com.android.support:support-v4:24.+'
+}
+dependencies {
     //compile group: 'org.apache.httpcomponents', name: 'httpclient-android', version: '4.3.5.1'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
-    compile group: 'org.apache.httpcomponents' , name: 'httpclient-android' , version: '4.3.5.1'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient-android', version: '4.3.5.1'
     compile 'org.apache.httpcomponents:httpmime:4.3.6'
 }

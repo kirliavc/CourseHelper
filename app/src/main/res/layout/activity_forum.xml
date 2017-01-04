@@ -48,6 +48,14 @@
                 />
         </LinearLayout>
         </LinearLayout>
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top_tab"
+        android:id="@+id/forum_pager">
+
+    </android.support.v4.view.ViewPager>
+    <!--
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
@@ -104,6 +112,7 @@
             style="@style/customProgressBar" />
 
     </LinearLayout>
+    -->
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_newpost"
         android:layout_width="wrap_content"

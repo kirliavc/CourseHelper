@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_new_post"
     android:layout_width="match_parent"
@@ -17,15 +18,17 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:hintTextAppearance="@style/hintStyle"
         android:id="@+id/edit_title_layout">
 
         <AutoCompleteTextView
             android:id="@+id/edit_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="标题(不超过20个字）"
+            android:hint="标题"
             android:textSize="17sp"
             android:inputType="textEmailAddress"
+            android:textCursorDrawable="@color/pkured"
             android:maxLines="1"
             android:singleLine="true" />
 
@@ -35,17 +38,23 @@
         android:layout_height="wrap_content"
         android:id="@+id/edit_content_layout"
         android:layout_below="@id/edit_title_layout"
-        android:padding="20dp" >
+        app:hintEnabled="false"
+        app:hintTextAppearance="@style/hintStyle"
+        android:paddingTop="20dp">
+
         <AutoCompleteTextView
             android:id="@+id/edit_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="内容"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:textSize="17sp"
             android:inputType="textMultiLine"
             android:background="@drawable/bg_edittext"
-            android:minLines="7"
+            android:minLines="20"
             android:gravity="left|top"
-            android:maxLines="12"/>
+            android:maxLines="30"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -55,7 +64,7 @@
         android:layout_height="35dp"
         android:layout_alignParentRight="true"
         android:layout_below="@id/edit_content_layout"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="15dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
