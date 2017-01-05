@@ -13,8 +13,19 @@ public class Reply{
     private Long postDate;//回复时间 Date
     private Boolean replyed;//回复是否被回复过 bool
     private String reply_id;//回复的 id String
+    private String replyUser_name;
 
+    public Boolean getReplyed() {
+        return replyed;
+    }
 
+    public String getReplyUser_name() {
+        return replyUser_name;
+    }
+
+    public void setReplyUser_name(String replyUser_name) {
+        this.replyUser_name = replyUser_name;
+    }
 
     public String getReply_id() {
         return reply_id;

@@ -81,15 +81,16 @@
         </activity>
         <activity
             android:name=".GroupActivity"
-            android:label="@string/title_activity_test"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="小组">
         </activity>
-        <activity android:name=".NewPostActivity"
-            >
+        <activity android:name=".NewPostActivity">
         </activity>
         <activity
             android:name=".PostDetailActivity"
             android:label="论坛">
+        </activity>
+        <activity android:name=".ShowImageActivity"
+                  android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 

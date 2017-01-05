@@ -10,9 +10,18 @@ public class Forum {
     private String posting_id;
     private String title;
     private String postUser_id;
+    private String postUser_name;
     private Number like;
     private Date postDate;
     private Boolean success;
+
+    public String getPostUser_name() {
+        return postUser_name;
+    }
+
+    public void setPostUser_name(String postUser_name) {
+        this.postUser_name = postUser_name;
+    }
 
     public String getPosting_id() {
         return posting_id;

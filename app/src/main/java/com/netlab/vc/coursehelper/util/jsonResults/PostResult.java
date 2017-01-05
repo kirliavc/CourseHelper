@@ -14,9 +14,16 @@ public class PostResult{
     private String postUser_id;
     private Number like;
     private Long postDate;
+    private String img;
     private Reply[] replys;
 
+    public String getImg() {
+        return img;
+    }
 
+    public void setImg(String img) {
+        this.img = img;
+    }
 
     public String getPostUser_name() {
         return postUser_name;

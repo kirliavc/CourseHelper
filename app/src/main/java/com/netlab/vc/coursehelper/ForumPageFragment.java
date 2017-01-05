@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +52,7 @@ public class ForumPageFragment extends Fragment
         footer=(LinearLayout)view.findViewById(R.id.footer_layout);
         myLayout = (ListView) view.findViewById(R.id.forum_listview);
         myLayout.setOnScrollListener(this);
+
         return view;
     }
 
@@ -72,6 +72,16 @@ public class ForumPageFragment extends Fragment
             totalItemCount) {
         lastVisibleIndex=firstVisibleItem+visibleItemCount;
         newIndex=firstVisibleItem;
+        boolean enable = false;
+        if(myLayout != null && myLayout.getChildCount() > 0){
+            // check if the first item of the list is visible
+            boolean firstItemVisible = myLayout.getFirstVisiblePosition() == 0;
+            // check if the top of the first item is visible
+            boolean topOfFirstItemVisible = myLayout.getChildAt(0).getTop() == 0;
+            // enabling or disabling the refresh layout
+            enable = firstItemVisible && topOfFirstItemVisible;
+        }
+        refreshLayout.setEnabled(enable);
     }
     public static <T> T[] concat(T[] first, T[] second) {
         T[] result = Arrays.copyOf(first, first.length + second.length);
@@ -120,7 +130,6 @@ public class ForumPageFragment extends Fragment
                 arrayList.add(new Parameters("page", String.valueOf(page)));
                 Parameters parameters = WebConnection.connect(Constants.baseUrl+Constants.AddUrls.get("FORUM_INFO"),
                         arrayList,WebConnection.CONNECT_GET);
-                Log.e(parameters.name,parameters.value);
                 GsonBuilder gsonBuilder = new GsonBuilder();
                 gsonBuilder.setDateFormat("yyyy-MM-dd HH:mm:ss"); // 设置日期的格式，遇到这个格式的数据转为Date对象
                 Gson gson = gsonBuilder.create();
@@ -147,7 +156,7 @@ public class ForumPageFragment extends Fragment
                 return;
             }
             //myLayout.setAdapter(new AnnouncementAdapter(AnnouncementActivity.this,R.layout.announcement_item,announcementList));
-            adapter = new ForumAdapter(getActivity(), R.layout.forum_item, forumList);
+            adapter = new ForumAdapter(getContext(), R.layout.forum_item, forumList);
             myLayout.setAdapter(adapter);
             myLayout.setSelection(newIndex);
             myLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {

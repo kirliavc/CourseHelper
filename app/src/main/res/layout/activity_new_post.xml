@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<RelativeLayout
+
     android:id="@+id/activity_new_post"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,6 +16,7 @@
     android:orientation="vertical"
     tools:context="com.netlab.vc.coursehelper.NewPostActivity"
     android:weightSum="1">
+
 
 
     <android.support.design.widget.TextInputLayout
@@ -52,7 +56,7 @@
             android:textSize="17sp"
             android:inputType="textMultiLine"
             android:background="@drawable/bg_edittext"
-            android:minLines="20"
+            android:minLines="10"
             android:gravity="left|top"
             android:maxLines="30"/>
 
@@ -75,4 +79,12 @@
         android:textColor="?android:attr/textColorTertiary"
         android:textSize="18sp"
         />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_photo_size_select_actual_black_24dp"
+        android:layout_alignTop="@+id/submit_post"
+        android:id="@+id/imageButton"/>
 </RelativeLayout>
+</ScrollView>

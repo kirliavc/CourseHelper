@@ -85,6 +85,7 @@ public class ForumActivity extends AppCompatActivity implements  ViewPager.OnPag
         public void onClick(View v) {
             Intent intent=new Intent(ForumActivity.this,NewPostActivity.class);
             intent.putExtra("course_id",getIntent().getStringExtra("course_id"));
+            intent.putExtra("type",vpager.getCurrentItem()==0?"QA":"EX");
             startActivity(intent);
         }
     }

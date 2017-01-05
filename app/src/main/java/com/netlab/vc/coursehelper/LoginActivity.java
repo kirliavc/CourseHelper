@@ -30,6 +30,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.netlab.vc.coursehelper.util.Constants;
@@ -352,7 +353,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, Integer> {
 
         private final String mUsername;
         private final String mPassword;
@@ -363,17 +364,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected Integer doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
             try {
                 ArrayList<Parameters> arrayList = new ArrayList<Parameters>();
-
                 arrayList.add(new Parameters("name",mUsername));
                 arrayList.add(new Parameters("password",mPassword));
                 Parameters parameters = WebConnection.connect(Constants.baseUrl+Constants.AddUrls.get("LOGIN"),
                         arrayList,WebConnection.CONNECT_POST);
                 Log.e("Login Result",parameters.value);
+                if(!parameters.name.equals("200"))
+                    return Integer.parseInt(parameters.name);
                 LoginResult loginResult = new Gson().fromJson(parameters.value,LoginResult.class);
                 if(loginResult.getSuccess()) {
                     Constants.password = mPassword;
@@ -398,12 +400,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     Constants.username=loginResult.getName();
                     Constants.realname=loginResult.getRealName();
                     */
-                    return true;
+
                 }
-                else
-                    return false;
+                return Integer.parseInt(parameters.name);
+
             } catch (Exception e) {
-                return false;
+                return -1;
             }
 
 
@@ -411,19 +413,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(final Integer success) {
             mAuthTask = null;
             showProgress(false);
 
-            if (success) {
+            if (success.equals(200)) {
                 //save the password?
 
                 Editor.putString(getApplicationContext(),"password",mPassword);
                 Editor.putString(getApplicationContext(),"username",mUsername);
                 Intent jumpToMain = new Intent(LoginActivity.this,MainActivity.class);
                 LoginActivity.this.startActivity(jumpToMain);
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
+            } else if(success.equals(-1)){
+                Toast.makeText(getApplicationContext(), "网络错误!", Toast.LENGTH_LONG).show();
+
+            }
+            else{
+                mPasswordView.setError("用户名或密码错误");
                 mPasswordView.requestFocus();
             }
         }

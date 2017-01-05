@@ -179,6 +179,7 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
         groupList.setOnClickListener(new LinearLayout.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(CourseActivity.this, GroupActivity.class);
+                intent.putExtra("course_id", course_id);
                 startActivity(intent);
             }
         });

@@ -34,6 +34,9 @@ public class Constants {
             put("FORUM_REPLY","/forum/reply");
             put("FORUM_DETAIL","/forum/getDetail");
             put("FORUM_LIKE","/forum/like");
+            put("GIVE_GROUP", "/group/givegroup");
+            put("GROUP_APPLY", "/group/apply");
+            put("GROUP_QUERY", "/group/query");
             //teacher API
             put("SIGN_UUID","/sign/uuid");
             put("SIGN_ENABLE","/sign/enable");
@@ -42,11 +45,11 @@ public class Constants {
         }
     };
     public static String token= null;
-    public static String _id;
-    public static String username;
-    public static String realname;
-    public static String phone,email,type,avatars,password;
-    public static boolean admin;
+    public static String _id="";
+    public static String username="";
+    public static String realname="";
+    public static String phone="",email="",type="",avatars="",password="";
+    public static boolean admin=false;
     public static final HashMap<String, Integer> QuestionTypeName = new HashMap<String, Integer>(){
         {
             put("single choice", R.string.single_choice);

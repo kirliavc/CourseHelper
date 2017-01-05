@@ -43,6 +43,7 @@ public class TestListActivity extends AppCompatActivity implements SwipeRefreshL
     private String courseId;
     private TestList testList;
     private TestListActivity instance;
+    private SwipeRefreshLayout refreshLayout;
     List<Map<String,Object> >mapList;
 
     @Override
@@ -60,6 +61,8 @@ public class TestListActivity extends AppCompatActivity implements SwipeRefreshL
         testListView=(ListView) findViewById(R.id.test_list);
         progressBar=(ProgressBar) findViewById(R.id.load_progress);
         noTest=(TextView)findViewById(R.id.no_contents);
+        refreshLayout=(SwipeRefreshLayout)findViewById(R.id.test_list_container);
+        refreshLayout.setOnRefreshListener(this);
     }
     void getData(){
         new getTestListTask().execute();
@@ -67,7 +70,7 @@ public class TestListActivity extends AppCompatActivity implements SwipeRefreshL
     }
     @Override
     public void onRefresh() {
-
+        getData();
     }
     public class getTestListTask extends AsyncTask<Void,Void,Boolean>{
         int[] scoreList;
@@ -116,6 +119,8 @@ public class TestListActivity extends AppCompatActivity implements SwipeRefreshL
                 }
             });
             progressBar.setVisibility(View.GONE);
+            if(refreshLayout.isRefreshing())
+                refreshLayout.setRefreshing(false);
         }
     }
     public class QuizListAdapter extends SimpleAdapter{

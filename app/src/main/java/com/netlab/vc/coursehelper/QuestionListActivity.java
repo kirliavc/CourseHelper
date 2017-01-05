@@ -151,5 +151,15 @@ public class QuestionListActivity extends AppCompatActivity {
             }
 
         }
+        @Override
+        public void onPostExecute(Boolean success){
+            if(!success){
+                Toast.makeText(getApplicationContext(), "提交失败！", Toast.LENGTH_LONG).show();
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "提交成功！", Toast.LENGTH_LONG).show();
+                finish();
+            }
+        }
     }
 }
