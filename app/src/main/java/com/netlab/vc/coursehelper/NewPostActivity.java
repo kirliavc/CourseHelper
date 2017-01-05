@@ -126,11 +126,24 @@ public class NewPostActivity extends AppCompatActivity {
     }
     private String encode(InputStream path) {
         //decode to bitmap
+        /*
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds=true;
+        Bitmap bitmap = BitmapFactory.decodeStream(path,null,options);
+        int scale = (int)( options.outWidth / (float)300);
+        if(scale <= 0)
+            scale = 1;
+        options.inSampleSize = scale;
+        Log.e("scale",String.valueOf(scale));
+        options.inJustDecodeBounds = false;
+        */
         Bitmap bitmap = BitmapFactory.decodeStream(path);
         Log.d("bitmap", "bitmap width: " + bitmap.getWidth() + " height: " + bitmap.getHeight());
         //convert to byte array
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        bitmap.recycle();
+        System.gc();
         byte[] bytes = baos.toByteArray();
 
         //base64 encode

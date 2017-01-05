@@ -12,7 +12,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,11 +35,16 @@ import static com.netlab.vc.coursehelper.util.Constants._id;
  * Created by dingfeifei on 16/11/20.
  */
 
-public class GroupActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
+public class GroupActivity extends AppCompatActivity implements AbsListView.OnScrollListener,SwipeRefreshLayout.OnRefreshListener{
+    private int lastVisibleIndex;
+    private int newIndex;
     Group[] groupList=new Group[]{};
+    private GroupAdapter adapter;
     String groupId;
     Boolean In;
     String courseId;
+    GroupResult groupResult;
+    String input;
     private ListView groupListView;
     private FloatingActionButton myGroupButton;
     private SwipeRefreshLayout refreshLayout;
@@ -51,10 +58,33 @@ public class GroupActivity extends AppCompatActivity implements SwipeRefreshLayo
         refreshLayout = (SwipeRefreshLayout)findViewById(R.id.group_refreshLayout);
         myGroupButton = (FloatingActionButton)findViewById(R.id.my_group);
         refreshLayout.setOnRefreshListener(this);
-        new GetGroupTask().execute();
         myGroupButton.setOnClickListener(new MyGroupClickListener());
+        groupListView.setOnScrollListener(this);
+        new GetGroupTask().execute();
         Log.e("HEHE", "1");
         //return view;
+    }
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int
+            totalItemCount) {
+        lastVisibleIndex=firstVisibleItem+visibleItemCount;
+        newIndex=firstVisibleItem;
+        boolean enable = false;
+        if(groupListView != null && groupListView.getChildCount() > 0){
+            // check if the first item of the list is visible
+            boolean firstItemVisible = groupListView.getFirstVisiblePosition() == 0;
+            // check if the top of the first item is visible
+            boolean topOfFirstItemVisible = groupListView.getChildAt(0).getTop() == 0;
+            // enabling or disabling the refresh layout
+            enable = firstItemVisible && topOfFirstItemVisible;
+        }
+        refreshLayout.setEnabled(enable);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
@@ -70,11 +100,44 @@ public class GroupActivity extends AppCompatActivity implements SwipeRefreshLayo
             if(In == true){
                 Toast.makeText(getApplicationContext(),"您已加入小组！",Toast.LENGTH_SHORT).show();
             }
+            else{
+                final EditText et = new EditText(this);
+                new AlertDialog.Builder(this).setTitle("组名")
+                        .setIcon(R.drawable.ic_error_black_24dp)
+                        .setView(et)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                input = et.getText().toString();
+                                if (input.equals("")) {
+                                    Toast.makeText(getApplicationContext(), "组名不能为空！" + input, Toast.LENGTH_LONG).show();
+                                }
+                                else {
+                                    new Thread(runnable).start();
+                                }
+                            }
+                        })
+                        .setNegativeButton("取消", null)
+                        .show();
+            }
+            if(refreshLayout.isRefreshing())
+                refreshLayout.setRefreshing(false);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
+    Runnable runnable = new Runnable(){
+        @Override
+        public void run() {
+            ArrayList<Parameters> arrayList1 = new ArrayList<Parameters>();
+            arrayList1.add(new Parameters("_id", _id));
+            arrayList1.add(new Parameters("course_id", courseId));
+            arrayList1.add(new Parameters("leader_name", Constants.realname));
+            arrayList1.add(new Parameters("group_name", input));
+            Parameters parameters = WebConnection.connect(Constants.baseUrl+Constants.AddUrls.get("GROUP_CREATE"),
+                    arrayList1,WebConnection.CONNECT_POST);
+            Log.e(parameters.name,parameters.value);
+        }
+    };
     public class MyGroupClickListener implements View.OnClickListener{
 
         @Override
@@ -94,20 +157,11 @@ public class GroupActivity extends AppCompatActivity implements SwipeRefreshLayo
     @Override
     public void onRefresh() {
         if (refreshLayout.isRefreshing()) {
-//            ArrayList<NameValuePair> params = new ArrayList<>();
-//            BasicNameValuePair valuesPair = new BasicNameValuePair("course_id", courseId);
-//            params.add(valuesPair);
             new GetGroupTask().execute();
         }
     }
 
     public class GetGroupTask extends AsyncTask<Void,Void,Boolean> {
-        /*
-        private View view;
-        public GetMyCourseTask(View _view){
-            view=_view;
-        }
-        */
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
@@ -142,7 +196,8 @@ public class GroupActivity extends AppCompatActivity implements SwipeRefreshLayo
         }
         @Override
         protected void onPostExecute(Boolean result){
-            groupListView.setAdapter(new GroupAdapter(GroupActivity.this,R.layout.group_item,groupList));
+            adapter=new GroupAdapter(GroupActivity.this,R.layout.group_item,groupList);
+            groupListView.setAdapter(adapter);
             groupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
@@ -187,11 +242,9 @@ public class GroupActivity extends AppCompatActivity implements SwipeRefreshLayo
                 Parameters parameters = WebConnection.connect(Constants.baseUrl + Constants.AddUrls.get("GROUP_APPLY"),
                         arrayList, WebConnection.CONNECT_POST);
                 ApplyResult applyResult = new Gson().fromJson(parameters.value,ApplyResult.class);
-                //Log.e("length:",String.valueOf(courseResult.getCourses().length));
                 if(applyResult.getSuccess()){
                     Log.e(applyResult.getSuccess().toString(),"1");
                     Toast.makeText(getApplicationContext(),"申请成功！",Toast.LENGTH_SHORT).show();
-                    //courseList=courseResult.getCourses();
                     return true;
                 }
                 else

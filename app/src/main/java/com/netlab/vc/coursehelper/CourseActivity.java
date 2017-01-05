@@ -331,8 +331,11 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
             courseTeacher.setText(course.getTerm());
             courseDate.setText(course.getIntroduction());
             progressBar.setVisibility(View.GONE);
-            signUpedInfo.setText(String.valueOf(signInInfo.getUser()));
-            absenceInfo.setText(String.valueOf(signInInfo.getTotal()-signInInfo.getUser()));
+            if(signInInfo!=null){
+                signUpedInfo.setText(String.valueOf(signInInfo.getUser()));
+                absenceInfo.setText(String.valueOf(signInInfo.getTotal()-signInInfo.getUser()));
+            }
+
             if (refreshLayout.isRefreshing())
                 refreshLayout.setRefreshing(false);
         }
