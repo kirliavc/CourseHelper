@@ -65,10 +65,7 @@ public class GroupActivity extends AppCompatActivity implements AbsListView.OnSc
         //return view;
     }
     @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-
-    }
+    public void onScrollStateChanged(AbsListView view, int scrollState) {}
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int
@@ -145,6 +142,12 @@ public class GroupActivity extends AppCompatActivity implements AbsListView.OnSc
             if (In == false){
                 Toast.makeText(getApplicationContext(),"您还没有加入任何小组！",Toast.LENGTH_SHORT).show();
             }
+            else{
+                Intent intent=new Intent(GroupActivity.this,ShowMyGroupActivity.class);
+                intent.putExtra("group_id",groupId);
+                intent.putExtra("course_id", courseId);
+                startActivity(intent);
+            }
         }
     }
 
@@ -165,6 +168,7 @@ public class GroupActivity extends AppCompatActivity implements AbsListView.OnSc
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
+                In = false;
                 ArrayList<Parameters> arrayList = new ArrayList<Parameters>();
                 arrayList.add(new Parameters("_id", _id));
                 arrayList.add(new Parameters("course_id", courseId));
@@ -191,16 +195,21 @@ public class GroupActivity extends AppCompatActivity implements AbsListView.OnSc
                 else
                     return false;
             } catch (Exception e) {
+                Log.e("error",e.toString());
                 return false;
             }
         }
         @Override
         protected void onPostExecute(Boolean result){
+            if(!result)
+                return;
             adapter=new GroupAdapter(GroupActivity.this,R.layout.group_item,groupList);
             groupListView.setAdapter(adapter);
             groupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                    if (In == true)
+                        return;
                     AlertDialog.Builder alertdialogbuilder = new AlertDialog.Builder(GroupActivity.this);
                     alertdialogbuilder.setMessage("申请加入该组？");
                     AlertDialog alertdialog1=alertdialogbuilder.create();

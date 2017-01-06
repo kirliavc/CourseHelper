@@ -86,7 +86,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:textSize="12sp"
-                    android:text="组员： "
+                    android:text="组员："
                     android:id="@+id/member"
                     android:textColor="#555555"
                     android:layout_width="wrap_content"

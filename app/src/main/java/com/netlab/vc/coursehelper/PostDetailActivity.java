@@ -191,6 +191,7 @@ public class PostDetailActivity extends AppCompatActivity implements SwipeRefres
                     threadImage.setVisibility(View.VISIBLE);
                     bm=decode(base64Img);
                     threadImage.setImageBitmap(bm);
+                    /*
                     threadImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -199,6 +200,7 @@ public class PostDetailActivity extends AppCompatActivity implements SwipeRefres
                             startActivity(intent);
                         }
                     });
+                    */
                 }
                 titleLike.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -7,12 +7,12 @@
         android:layout_height="0dp"/>
 
     <LinearLayout
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
         android:background="@drawable/corners_bg"
         android:layout_centerInParent="true"
         android:layout_width="fill_parent"
@@ -20,14 +20,13 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/forum_listitem_title"
-            android:textSize="18sp"
+            android:id="@+id/waiting_member_name"
+            android:textSize="17sp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginTop="7dp"
-            android:layout_weight="1.0"
             android:layout_marginBottom="5dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -40,15 +39,16 @@
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="13dp"
             >
 
             <TextView
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:textSize="12sp"
-                android:id="@+id/forum_listitem_author"
+                android:textSize="16sp"
+                android:text="同意"
+                android:id="@+id/announcement_listitem_time"
                 android:textColor="#555555"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,10 +58,11 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:textSize="12sp"
+                android:textSize="16sp"
+                android:text="拒绝"
                 android:layout_marginRight="10dp"
                 android:layout_marginEnd="10dp"
-                android:id="@+id/forum_listitem_time"
+                android:id="@+id/hole_listitem_reply"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />

@@ -37,6 +37,10 @@ public class Constants {
             put("GIVE_GROUP", "/group/givegroup");
             put("GROUP_APPLY", "/group/apply");
             put("GROUP_QUERY", "/group/query");
+            put("GROUP_CREATE", "/group/create");
+            put("GROUP_SHOW", "/group/show");
+            put("GROUP_WAITING", "/group/showwaiting");
+            put("GROUP_DEAL", "/group/deal");
             //teacher API
             put("SIGN_UUID","/sign/uuid");
             put("SIGN_ENABLE","/sign/enable");

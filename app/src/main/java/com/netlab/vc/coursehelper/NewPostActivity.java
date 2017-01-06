@@ -26,7 +26,6 @@ import com.netlab.vc.coursehelper.util.Parameters;
 import com.netlab.vc.coursehelper.util.WebConnection;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -109,8 +108,8 @@ public class NewPostActivity extends AppCompatActivity {
                 String path = cursor.getString(colunm_index);
                 Log.e("path", path);
                 try {
-                    imagePath=encode(getContentResolver().openInputStream(uri));
-                } catch (FileNotFoundException e) {
+                    imagePath=encode(uri);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -124,20 +123,21 @@ public class NewPostActivity extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-    private String encode(InputStream path) {
+    private String encode(Uri uri) throws Exception {
+        InputStream inputStream=getContentResolver().openInputStream(uri);
         //decode to bitmap
-        /*
+
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds=true;
-        Bitmap bitmap = BitmapFactory.decodeStream(path,null,options);
+        Bitmap bitmap = BitmapFactory.decodeStream(inputStream,null,options);
         int scale = (int)( options.outWidth / (float)300);
         if(scale <= 0)
             scale = 1;
         options.inSampleSize = scale;
         Log.e("scale",String.valueOf(scale));
         options.inJustDecodeBounds = false;
-        */
-        Bitmap bitmap = BitmapFactory.decodeStream(path);
+        inputStream=getContentResolver().openInputStream(uri);
+        bitmap = BitmapFactory.decodeStream(inputStream,null,options);
         Log.d("bitmap", "bitmap width: " + bitmap.getWidth() + " height: " + bitmap.getHeight());
         //convert to byte array
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
