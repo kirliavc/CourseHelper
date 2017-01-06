@@ -181,7 +181,6 @@ public class PostDetailActivity extends AppCompatActivity implements SwipeRefres
             }
             if(isFirstCreate){
                 PostDetailActivity.this.setTitle(postResult.getTitle());
-                postTitle.setText(postResult.getTitle());
                 postText.setText(postResult.getContent());
                 postDate.setText(DateFormatter.format(postResult.getPostDate()));
                 userName.setText(postResult.getPostUser_name());

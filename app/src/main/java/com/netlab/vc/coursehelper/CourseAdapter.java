@@ -48,6 +48,16 @@ public class CourseAdapter extends BaseAdapter implements ListAdapter {
         }
         TextView courseNameView=(TextView)view.findViewById(R.id.course_name);
         ImageView courseImgView=(ImageView)view.findViewById(R.id.course_image);
+        if(courseList[position].getName().equals("计算机网络实习"))
+            courseImgView.setImageResource(R.drawable.ac);
+        if(courseList[position].getName().equals("操作系统实习"))
+            courseImgView.setImageResource(R.drawable.baldr1);
+        if(courseList[position].getName().equals("形势与政策"))
+            courseImgView.setImageResource(R.drawable.xingshi);
+        if(courseList[position].getName().equals("数据库概论"))
+            courseImgView.setImageResource(R.drawable.mysql);
+        if(courseList[position].getName().equals("计算机系统导论"))
+            courseImgView.setImageResource(R.drawable.ics);
         courseNameView.setText(courseList[position].getName());
         return view;
     }
