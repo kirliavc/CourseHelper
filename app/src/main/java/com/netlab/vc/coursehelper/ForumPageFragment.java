@@ -162,10 +162,17 @@ public class ForumPageFragment extends Fragment
             myLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent=new Intent(getActivity(), PostDetailActivity.class);
-                    intent.putExtra("course_id",courseId);
-                    intent.putExtra("posting_id",forumList[position].getPosting_id());
-                    startActivity(intent);
+                    try {
+
+
+                        Intent intent = new Intent(getActivity(), PostDetailActivity.class);
+                        intent.putExtra("course_id", courseId);
+                        intent.putExtra("posting_id", forumList[position].getPosting_id());
+                        startActivity(intent);
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
             });
             if(refreshLayout.isRefreshing())
