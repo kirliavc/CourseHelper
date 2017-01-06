@@ -242,6 +242,7 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
                 if(UIDs.size()>0){
                     for(String uid:UIDs){
                         if(uid.contains(student_uuid)) {
+                            flag=true;
                             Toast.makeText(CourseActivity.this, "已找到课程iBeacon", Toast.LENGTH_SHORT).show();
                             new SignUpTask().execute();
                         }
@@ -517,7 +518,7 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             Toast.makeText(this, "mBluetoothAdapter not started", Toast.LENGTH_SHORT).show();
             this.startActivity(enableBtIntent);
-             return false;
+            return false;
         }
         return true;
     }
