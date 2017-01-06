@@ -235,20 +235,20 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
         }
 
         startScan();
+
         new Handler().postDelayed(new Runnable() {
             public void run() {
+                boolean flag=false;
                 if(UIDs.size()>0){
                     for(String uid:UIDs){
                         if(uid.contains(student_uuid)) {
                             Toast.makeText(CourseActivity.this, "已找到课程iBeacon", Toast.LENGTH_SHORT).show();
                             new SignUpTask().execute();
-                            mBluetoothAdapter.stopLeScan(mLeScanCallback);
-                            return;
                         }
                     }
-
                 }
-                Toast.makeText(CourseActivity.this, "未扫描到课程IBeacon", Toast.LENGTH_SHORT).show();
+                if(!flag)
+                    Toast.makeText(CourseActivity.this, "未扫描到课程IBeacon", Toast.LENGTH_SHORT).show();
                 mBluetoothAdapter.stopLeScan(mLeScanCallback);
 
             }
