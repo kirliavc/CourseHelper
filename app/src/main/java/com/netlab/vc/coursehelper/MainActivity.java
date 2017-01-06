@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity
         pagerAdapter=new MainPagerAdapter(getSupportFragmentManager());
         vpager=(ViewPager)findViewById(R.id.vpager);
         rg_tab_bar=(RadioGroup)findViewById(R.id.tab_group);
+        rg_tab_bar.setVisibility(View.GONE);
         rg_tab_bar.setOnCheckedChangeListener(this);
         rb_course=(RadioButton)findViewById(R.id.rb_course);
         rb_announcement=(RadioButton)findViewById(R.id.rb_message);
@@ -134,9 +136,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
             return true;
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_exit) {
+        }  else if (id == R.id.nav_exit) {
             MainActivity.this.finish();
             //Intent intent=new Intent(MainActivity.this,LoginActivity.class);
             //startActivity(intent);
