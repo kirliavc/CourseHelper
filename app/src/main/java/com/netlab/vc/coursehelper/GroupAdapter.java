@@ -56,7 +56,7 @@ public class GroupAdapter extends BaseAdapter implements ListAdapter {
         groupLeaderView.setText(groupList[position].getLeader_name());
         int l = groupList[position].getMember().length;
         temp = " ";
-        if (l > 1) {
+        if (l >= 1) {
             for (int i = 0; i < l; i++) {
                 temp += groupList[position].getMember()[i].getMember_name();
                 temp += "  ";

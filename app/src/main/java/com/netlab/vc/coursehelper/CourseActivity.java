@@ -106,6 +106,7 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
         //new RegisterTask().execute();
     }
+
     public class RegisterTask extends AsyncTask<Void,Void,Boolean>{
 
         @Override
@@ -215,10 +216,7 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
     }
     public void getData() {
         new GetCourseInfoTask().execute();
-        if (Constants.admin) {
 
-            signUp.setText("开启签到");
-        }
     }
 
     private void attemptSignUp() {
@@ -227,21 +225,32 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
             Toast.makeText(getApplicationContext(),"当前时间段不可签到，请尝试刷新",Toast.LENGTH_LONG).show();
             return;
         }
-        signUp.setClickable(false);
-        signUp.setText(R.string.signuping);
+
         UIDs.clear();
-        verifyBluetooth();
+        student_uuid=signInInfo.getUuid().replaceAll("-","");
+        if(!verifyBluetooth()){
+            signUp.setClickable(true);
+            signUp.setText(R.string.signup);
+            return ;
+        }
+
         startScan();
         new Handler().postDelayed(new Runnable() {
             public void run() {
                 if(UIDs.size()>0){
-                    Toast.makeText(CourseActivity.this, "已找到课程iBeacon", Toast.LENGTH_SHORT).show();
-                    new SignUpTask().execute();
+                    for(String uid:UIDs){
+                        if(uid.contains(student_uuid)) {
+                            Toast.makeText(CourseActivity.this, "已找到课程iBeacon", Toast.LENGTH_SHORT).show();
+                            new SignUpTask().execute();
+                            mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                            return;
+                        }
+                    }
+
                 }
-                else{
-                    Toast.makeText(CourseActivity.this, "未扫描到课程IBeacon", Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(CourseActivity.this, "未扫描到课程IBeacon", Toast.LENGTH_SHORT).show();
                 mBluetoothAdapter.stopLeScan(mLeScanCallback);
+
             }
         },3000);
     }
@@ -287,6 +296,7 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
         AppIndex.AppIndexApi.start(client, getIndexApiAction());
     }
 
+
     @Override
     public void onStop() {
         super.onStop();
@@ -297,6 +307,7 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
     }
+
 
     public class GetCourseInfoTask extends AsyncTask<Void, Void, Boolean> {
 
@@ -315,6 +326,7 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
                 parameters = WebConnection.connect(Constants.baseUrl + Constants.AddUrls.get("SIGN_INFO"),
                         arrayList, WebConnection.CONNECT_GET);
                 signInInfo = new Gson().fromJson(parameters.value, SignInInfo.class);
+                signinId=signInInfo.getSignin_id();
                 return true;
             } catch (Exception e) {
                 return false;
@@ -338,6 +350,12 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
 
             if (refreshLayout.isRefreshing())
                 refreshLayout.setRefreshing(false);
+            if (Constants.admin) {
+                signUpStats=false;
+                if(signInInfo.isEnable())
+                    new FinishSignUpTask().execute();
+                signUp.setText("开启签到");
+            }
         }
     }
     public class StartSignUpTask extends AsyncTask<Void, Void, Boolean> {
@@ -491,7 +509,7 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
         return true;
     }
     //确认蓝牙已经打开
-    private void verifyBluetooth() {
+    private boolean verifyBluetooth() {
         final BluetoothManager bluetoothManager =
                 (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
@@ -499,9 +517,9 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             Toast.makeText(this, "mBluetoothAdapter not started", Toast.LENGTH_SHORT).show();
             this.startActivity(enableBtIntent);
-            // return;
+             return false;
         }
-
+        return true;
     }
 
     //开始扫描周围的蓝牙
