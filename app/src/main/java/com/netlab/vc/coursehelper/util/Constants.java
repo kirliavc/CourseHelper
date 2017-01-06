@@ -54,6 +54,7 @@ public class Constants {
     public static String realname="";
     public static String phone="",email="",type="",avatars="",password="";
     public static boolean admin=false;
+    public static String groupStage="0";
     public static final HashMap<String, Integer> QuestionTypeName = new HashMap<String, Integer>(){
         {
             put("single choice", R.string.single_choice);

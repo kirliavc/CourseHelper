@@ -12,8 +12,17 @@ public class UserInfo {
     String realName;
     String type;
     String[] avatars;
+    String groupStage;
     boolean success;
     boolean admin;
+
+    public String getGroupStage() {
+        return groupStage;
+    }
+
+    public void setGroupStage(String groupStage) {
+        this.groupStage = groupStage;
+    }
 
     public boolean isSuccess() {
         return success;
