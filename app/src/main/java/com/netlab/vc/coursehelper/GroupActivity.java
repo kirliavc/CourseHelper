@@ -25,9 +25,11 @@ import com.netlab.vc.coursehelper.util.WebConnection;
 import com.netlab.vc.coursehelper.util.jsonResults.ApplyResult;
 import com.netlab.vc.coursehelper.util.jsonResults.Group;
 import com.netlab.vc.coursehelper.util.jsonResults.GroupResult;
+import com.netlab.vc.coursehelper.util.jsonResults.Member;
 import com.netlab.vc.coursehelper.util.jsonResults.QueryResult;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static com.netlab.vc.coursehelper.util.Constants._id;
 
@@ -36,12 +38,13 @@ import static com.netlab.vc.coursehelper.util.Constants._id;
  */
 
 public class GroupActivity extends AppCompatActivity implements AbsListView.OnScrollListener,SwipeRefreshLayout.OnRefreshListener{
+    public final static int NONE=0,APPLYING=1,INGROUP=2,UNKNOWN=3;
     private int lastVisibleIndex;
     private int newIndex;
     Group[] groupList=new Group[]{};
     private GroupAdapter adapter;
     String groupId;
-    Boolean In;
+    private int In=UNKNOWN;
     String courseId;
     GroupResult groupResult;
     String input;
@@ -98,12 +101,13 @@ public class GroupActivity extends AppCompatActivity implements AbsListView.OnSc
         }
         if(item.getItemId() == R.id.submit_group)
         {
-            if(In == true){
-                Toast.makeText(getApplicationContext(),"您已加入小组！",Toast.LENGTH_SHORT).show();
+            if(In !=NONE){
+                Toast.makeText(getApplicationContext(),"您已加入小组或申请小组！",Toast.LENGTH_SHORT).show();
             }
             else{
                 final EditText et = new EditText(this);
-                new AlertDialog.Builder(this).setTitle("组名")
+                et.setHint("组名：");
+                new AlertDialog.Builder(this).setTitle("新建小组")
                         .setIcon(R.drawable.ic_error_black_24dp)
                         .setView(et)
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -143,7 +147,7 @@ public class GroupActivity extends AppCompatActivity implements AbsListView.OnSc
 
         @Override
         public void onClick(View v) {
-            if (In == false){
+            if (In !=INGROUP){
                 Toast.makeText(getApplicationContext(),"您还没有加入任何小组！",Toast.LENGTH_SHORT).show();
             }
             else{
@@ -172,7 +176,6 @@ public class GroupActivity extends AppCompatActivity implements AbsListView.OnSc
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                In = false;
                 ArrayList<Parameters> arrayList = new ArrayList<Parameters>();
                 arrayList.add(new Parameters("_id", _id));
                 arrayList.add(new Parameters("course_id", courseId));
@@ -180,24 +183,23 @@ public class GroupActivity extends AppCompatActivity implements AbsListView.OnSc
                         arrayList,WebConnection.CONNECT_GET);
                 //Log.e(parameters.name,parameters.value);
                 GroupResult groupResult = new Gson().fromJson(parameters.value,GroupResult.class);
+                groupList=groupResult.getGroups();
                 parameters = WebConnection.connect(Constants.baseUrl+Constants.AddUrls.get("GROUP_QUERY"),
                         arrayList,WebConnection.CONNECT_GET);
-                if (parameters.name.equals("503")){
-                    In = false;
+                QueryResult queryResult = new Gson().fromJson(parameters.value,QueryResult.class);
+                switch (queryResult.getStatus()) {
+                    case "none":
+                        In = NONE;
+                        break;
+                    case "applying group":
+                        In = APPLYING;
+                        break;
+                    default:
+                        In = INGROUP;
+                        groupId=queryResult.getGroup_id();
+                        break;
                 }
-                else{
-                    In = true;
-                    QueryResult queryResult = new Gson().fromJson(parameters.value,QueryResult.class);
-                    Log.e(parameters.name,parameters.value);
-                    groupId = queryResult.getGroup_id();
-                }
-                if(groupResult.getSuccess()) {
-                    Log.e(groupResult.getSuccess().toString(),"1");
-                    groupList=groupResult.getGroups();
-                    return true;
-                }
-                else
-                    return false;
+                return true;
             } catch (Exception e) {
                 Log.e("error",e.toString());
                 return false;
@@ -212,7 +214,18 @@ public class GroupActivity extends AppCompatActivity implements AbsListView.OnSc
             groupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                    if (In == true)
+                    if(Objects.equals(groupList[position].getLeader_id(), Constants._id)){
+                        myGroupButton.callOnClick();
+                        return;
+                    }
+
+                    for(Member member: groupList[position].getMember()){
+                        if(member.getMember_id().equals(Constants._id)){
+                            myGroupButton.callOnClick();
+                            return;
+                        }
+                    }
+                    if (In!=NONE)
                         return;
                     AlertDialog.Builder alertdialogbuilder = new AlertDialog.Builder(GroupActivity.this);
                     alertdialogbuilder.setMessage("申请加入该组？");

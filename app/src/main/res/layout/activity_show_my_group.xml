@@ -104,7 +104,15 @@
             tools:listitem="@layout/group_member_item" />
 
 
-
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/group_member_list"
+        android:id="@+id/group_delete"
+        android:textColor="@color/bg_white"
+        android:background="@color/light_red"
+        android:text="@string/delete_group"
+        android:visibility="gone"/>
 
     </RelativeLayout>
 

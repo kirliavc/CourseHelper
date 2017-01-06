@@ -59,10 +59,10 @@ public class ThreadListAdapter extends BaseAdapter implements ListAdapter {
         TextView threadContentView=(TextView)view.findViewById(R.id.thread_content);
         TextView postTimeView=(TextView)view.findViewById(R.id.post_time);
         TextView likeNumberView=(TextView)view.findViewById(R.id.like_number);
-        ImageView avatarView=(ImageView)view.findViewById(R.id.user_avatar);
+        //ImageView avatarView=(ImageView)view.findViewById(R.id.user_avatar);
         ImageView likeView=(ImageView)view.findViewById(R.id.like_button);
         likeView.setImageResource(R.drawable.ic_thumb_up_black_24dp);
-        avatarView.setImageResource(R.drawable.common_google_signin_btn_icon_dark);
+        //avatarView.setImageResource(R.drawable.common_google_signin_btn_icon_dark);
         userNameView.setText(replies[position].getReplyUser_name());
         threadContentView.setText(replies[position].getContent());
         postTimeView.setText(DateFormatter.format(replies[position].getPostDate()));

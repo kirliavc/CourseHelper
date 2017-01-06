@@ -36,8 +36,8 @@
 
                     <ImageView
                         android:id="@+id/course_img"
-                        android:layout_width="80dp"
-                        android:layout_height="120dp"
+                        android:layout_width="100dp"
+                        android:layout_height="140dp"
                         android:gravity="center_vertical"
                         android:src="@drawable/cn5" />
 

@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.netlab.vc.coursehelper.util.DateFormatter;
 import com.netlab.vc.coursehelper.util.jsonResults.Forum;
 
 /**
@@ -54,7 +55,7 @@ public class ForumAdapter extends BaseAdapter implements ListAdapter {
         TextView forumAuthorView=(TextView)view.findViewById(R.id.forum_listitem_author);
         forumAuthorView.setText(forumList[position].getPostUser_name());
         //forumContentView.setText(forumList[position].getContent());
-        announcementTimeView.setText(String.valueOf(forumList[position].getPostDate()));
+        announcementTimeView.setText(DateFormatter.format(forumList[position].getPostDate()));
         return view;
     }
 }

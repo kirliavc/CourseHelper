@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -63,7 +64,7 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
     private Button signUp;//签到按钮
     private SwipeRefreshLayout refreshLayout;
     private ProgressBar progressBar;
-
+    private ImageView courseImg;
 
     protected static final String TAG = "CourseActivity";//LOG用到的标记
     private String course_id;
@@ -144,6 +145,8 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
         signUp = (Button) findViewById(R.id.sign_up);
         refreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshLayout);
         progressBar = (ProgressBar) findViewById(R.id.load_progress);
+        courseImg=(ImageView)findViewById(R.id.course_img);
+        courseImg.setImageResource(R.drawable.mysql);
         UIDs=new HashSet<>();
     }
 

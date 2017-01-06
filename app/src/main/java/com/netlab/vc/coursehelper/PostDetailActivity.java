@@ -60,7 +60,7 @@ public class PostDetailActivity extends AppCompatActivity implements SwipeRefres
         threadListView=(ListView)findViewById(R.id.reply_list);
         headerView=getLayoutInflater().inflate(R.layout.thread_title,null);
         userName=(TextView)headerView.findViewById(R.id.user_name);
-        postTitle = (TextView)headerView.findViewById(R.id.thread_title);
+        //postTitle = (TextView)headerView.findViewById(R.id.thread_title);
         postText = (TextView)headerView.findViewById(R.id.thread_content);
         postDate = (TextView)headerView.findViewById(R.id.post_time);
         likeNumber = (TextView)headerView.findViewById(R.id.like_number);

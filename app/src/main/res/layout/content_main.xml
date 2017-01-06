@@ -25,7 +25,7 @@
             android:id="@+id/elective_course_hint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/add_delete_course"
+            android:text="添加课程"
             android:gravity="center"
             android:textSize="19sp" />
 

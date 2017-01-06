@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +44,7 @@ public class ShowMyGroupActivity extends AppCompatActivity implements AbsListVie
     String groupName;
     ShowMyGroupResult groupResult;
     String groupId;
+    Button deleteGroupButton;
     private ListView memberListView;
     private SwipeRefreshLayout refreshLayout;
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,13 @@ public class ShowMyGroupActivity extends AppCompatActivity implements AbsListVie
         refreshLayout = (SwipeRefreshLayout)findViewById(R.id.show_group_refreshLayout);
         leaderNameView = (TextView)findViewById(R.id.group_leader_name);
         groupNameView = (TextView)findViewById(R.id.group_name);
+        deleteGroupButton=(Button)findViewById(R.id.group_delete);
+        deleteGroupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DeleteGroupTask().execute();
+            }
+        });
         refreshLayout.setOnRefreshListener(this);
         memberListView.setOnScrollListener(this);
         new ShowMyGroupTask().execute();
@@ -154,7 +164,33 @@ public class ShowMyGroupActivity extends AppCompatActivity implements AbsListVie
             memberListView.setAdapter(adapter);
             if(refreshLayout.isRefreshing())
                 refreshLayout.setRefreshing(false);
+            if(isLeader&&memberList.length==0)
+                deleteGroupButton.setVisibility(View.VISIBLE);
         }
     }
+    public class DeleteGroupTask extends AsyncTask<Void,Void,Boolean>{
 
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                ArrayList<Parameters> arrayList = new ArrayList<Parameters>();
+                arrayList.add(new Parameters("_id", _id));
+                arrayList.add(new Parameters("group_id", groupId));
+                Parameters parameters = WebConnection.connect(Constants.baseUrl+"/group/delete",
+                        arrayList,WebConnection.CONNECT_POST);
+                return parameters.name.equals("200");
+            }
+            catch (Exception e){
+                return false;
+            }
+        }
+        @Override
+        public void onPostExecute(Boolean success){
+            if(!success){
+                Toast.makeText(getApplicationContext(),"删除小组失败",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Toast.makeText(getApplicationContext(),"删除小组成功",Toast.LENGTH_SHORT).show();
+        }
+    }
 }

@@ -3,30 +3,19 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_height="wrap_content"
               android:weightSum="1"
-              android:background="@color/bg_white">
+              android:background="@drawable/corners_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_below="@id/lesson_id"
-        android:layout_height="1dp"
-        android:background="@color/light_red" />
+        android:layout_height="1dp" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="28dp"
         android:layout_margin="10dp"
         android:orientation="horizontal">
-        <ImageView
-            android:layout_width="65dp"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/common_google_signin_btn_icon_light"
-            android:id="@+id/user_avatar"
-            />
-        <View
-            android:layout_height="wrap_content"
-            android:layout_width="20dp"
-            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/user_name"
@@ -61,28 +50,29 @@
             android:text="time"
             android:textColor="@color/bg_black"
             android:layout_weight="2"/>
+
         <TextView
 
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textSize="15sp"
-            android:text=""
             android:textColor="@color/bg_black"
+            android:text=""
             android:layout_weight="2"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/ic_thumb_up_black_24dp"
+            app:srcCompat="@drawable/ic_thumb_up_black_24dp_2"
             android:id="@+id/like_button"
             android:layout_weight="1"/>
         <TextView
             android:id="@+id/like_number"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textSize="15sp"
-            android:text="like"
             android:textColor="@color/bg_black"
+            android:text="like"
+            android:textSize="15sp"
             android:layout_weight="2"/>
     </LinearLayout>
 
