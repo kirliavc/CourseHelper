@@ -132,6 +132,7 @@ public class ElectiveActivity extends AppCompatActivity implements SwipeRefreshL
                 ArrayList<Parameters> arrayList = new ArrayList<Parameters>();
                 arrayList.add(new Parameters("_id", Constants._id));
                 arrayList.add(new Parameters("course_id", course_id));
+                arrayList.add(new Parameters("user_name",Constants.username));
                 Log.e("course_id",course_id);
                 Parameters parameters = WebConnection.connect(Constants.baseUrl + Constants.AddUrls.get("COURSE_SELECT"),
                         arrayList, WebConnection.CONNECT_POST);

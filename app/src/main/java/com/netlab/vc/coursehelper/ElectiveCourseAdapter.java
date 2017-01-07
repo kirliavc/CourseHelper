@@ -60,8 +60,6 @@ public class ElectiveCourseAdapter extends BaseAdapter implements ListAdapter {
             courseImgView.setImageResource(R.drawable.xingshi);
         if(courseList[position].getName().equals("数据库概论"))
             courseImgView.setImageResource(R.drawable.mysql);
-        if(courseList[position].getName().equals("计算机系统导论"))
-            courseImgView.setImageResource(R.drawable.ics);
         return view;
     }
 }

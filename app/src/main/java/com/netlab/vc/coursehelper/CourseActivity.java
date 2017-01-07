@@ -329,6 +329,8 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
                 course=new Gson().fromJson(parameters.value,Course.class);
                 parameters = WebConnection.connect(Constants.baseUrl + Constants.AddUrls.get("SIGN_INFO"),
                         arrayList, WebConnection.CONNECT_GET);
+                if(parameters.name.equals("503"))
+                    return true;
                 signInInfo = new Gson().fromJson(parameters.value, SignInInfo.class);
                 signinId=signInInfo.getSignin_id();
                 return true;
