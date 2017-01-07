@@ -14,7 +14,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/header"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -51,6 +51,7 @@
             android:name=".TestListActivity"
             android:label="测试列表">
         </activity>
+
         <activity
             android:name=".QuestionListActivity"
             android:label="">
@@ -81,6 +82,10 @@
         </activity>
         <activity
             android:name=".GroupActivity"
+            android:label="小组">
+        </activity>
+        <activity
+            android:name=".GroupSecondActivity"
             android:label="小组">
         </activity>
         <activity android:name=".NewPostActivity">

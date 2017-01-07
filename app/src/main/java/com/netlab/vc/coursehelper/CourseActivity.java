@@ -182,9 +182,16 @@ public class CourseActivity extends AppCompatActivity implements SwipeRefreshLay
         });
         groupList.setOnClickListener(new LinearLayout.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(CourseActivity.this, GroupActivity.class);
-                intent.putExtra("course_id", course_id);
-                startActivity(intent);
+                if (Constants.groupStage.equals("1")) {
+                    Intent intent = new Intent(CourseActivity.this, GroupActivity.class);
+                    intent.putExtra("course_id", course_id);
+                    startActivity(intent);
+                }
+                else{
+                    Intent intent = new Intent(CourseActivity.this, GroupSecondActivity.class);
+                    intent.putExtra("course_id", course_id);
+                    startActivity(intent);
+                }
             }
         });
         refreshLayout.setOnRefreshListener(this);

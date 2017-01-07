@@ -8,6 +8,10 @@ public class Member {
     private String member_id;
     private String member_name;
 
+    public Member(String _member_id, String _member_name){
+        this.member_id = _member_id;
+        this.member_name = _member_name;
+    }
     public String getMember_id() {
         return member_id;
     }

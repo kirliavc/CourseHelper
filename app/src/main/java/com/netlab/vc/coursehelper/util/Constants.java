@@ -41,6 +41,8 @@ public class Constants {
             put("GROUP_SHOW", "/group/show");
             put("GROUP_WAITING", "/group/showwaiting");
             put("GROUP_DEAL", "/group/deal");
+            put("NO_GROUP","/group/getnogroup");
+            put("SEND_WISH", "/group/savewish");
             //teacher API
             put("SIGN_UUID","/sign/uuid");
             put("SIGN_ENABLE","/sign/enable");
