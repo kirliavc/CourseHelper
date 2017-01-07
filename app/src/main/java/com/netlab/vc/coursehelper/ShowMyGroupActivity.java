@@ -72,6 +72,11 @@ public class ShowMyGroupActivity extends AppCompatActivity implements AbsListVie
         //return view;
     }
     @Override
+    public void onResume(){
+        super.onResume();
+        new ShowMyGroupTask().execute();
+    }
+    @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
 
 
