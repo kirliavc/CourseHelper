@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:allowBackup="true"
@@ -51,7 +52,6 @@
             android:name=".TestListActivity"
             android:label="测试列表">
         </activity>
-
         <activity
             android:name=".QuestionListActivity"
             android:label="">
@@ -94,8 +94,9 @@
             android:name=".PostDetailActivity"
             android:label="论坛">
         </activity>
-        <activity android:name=".ShowImageActivity"
-                  android:theme="@style/AppTheme.NoActionBar">
+        <activity
+            android:name=".ShowImageActivity"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".ShowMyGroupActivity"
@@ -104,6 +105,16 @@
         <activity
             android:name=".GroupWaitingActivity"
             android:label="待审核申请">
+        </activity>
+        <activity
+            android:name=".IAAALogin"
+            android:label="IAAA登录"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".IAAAElective"
+            android:label="@string/title_activity_iaaaelective"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 

@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
-            Intent intent=new Intent(MainActivity.this,ChangeInfoActivity.class);
+            Intent intent=new Intent(MainActivity.this,IAAALogin.class);
             startActivity(intent);
             return true;
 
